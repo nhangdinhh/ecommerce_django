@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container text-center mt-5">
+  <h1 class="display-4 text-success">🎉 Order Successful!</h1>
+  <p class="lead">Thank you for your purchase. We’re processing your order now.</p>
+  <a href="{% url 'core:shop' %}" class="btn btn-primary mt-4">Back to Shop</a>
+</div>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

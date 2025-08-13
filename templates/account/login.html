@@ -1,0 +1,103 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+<style>
+  body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .signin-container {
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .signin-container h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #343a40;
+  }
+
+  .signin-container p {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 25px;
+    color: #6c757d;
+  }
+
+  .signin-container p a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .signin-container p a:hover {
+    text-decoration: underline;
+  }
+
+  .signin-container input {
+    border: 1px solid #ced4da !important;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+
+  .signin-container .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+
+  .signin-container .btn-outline-dark {
+    background-color: #fff;
+    color: #343a40;
+    border-color: #343a40;
+  }
+
+  .signin-container .btn-outline-dark:hover {
+    background-color: #343a40;
+    color: #fff;
+  }
+</style>
+
+<div class="signin-container">
+  <h1>{% trans "Sign In" %}</h1>
+
+  {% get_providers as socialaccount_providers %}
+  {% if socialaccount_providers %}
+    <div class="socialaccount_ballot">
+      {# Bạn có thể thêm nút đăng nhập xã hội tại đây nếu dùng Google/Facebook login #}
+    </div>
+    {% include "socialaccount/snippets/login_extra.html" %}
+  {% else %}
+    <p>{% blocktrans %}If you have not created an account yet, then please
+    <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+  {% endif %}
+
+  <form class="login" method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+    {% endif %}
+    <a class="btn btn-outline-dark" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+    <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
+  </form>
+</div>
+
+{% endblock %}
