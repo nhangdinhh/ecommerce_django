@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<style>
+  .form-control {
+    display: block;
+    width: 100%;
+    padding: .5rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #212529;
+    background-color: #fff;
+    border: 1px solid #ced4da !important;
+    border-radius: .3rem;
+    box-shadow: none;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+
+  .form-label {
+    font-weight: 600;
+    margin-bottom: .5rem;
+  }
+  .checkout-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+   
+    color: #343a40;
+    
+    display: inline-block;
+    padding-bottom: .3rem;
+    margin-bottom: 1.0rem;
+  }
+  .form-section {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: .5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .btn-primary {
+    padding: .75rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+</style>
+
+<div class="container">
+  <div class="py-5 text-center">
+  <h2 class="checkout-title">
+  <i class="fas fa-credit-card"></i> Checkout Form
+</h2>
+
+    <p class="lead">Please fill in the billing and shipping details below to complete your order.</p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 order-md-1 form-section">
+      <h4 class="mb-4">Billing Information</h4>
+      <form method="POST" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label" for="username">Username</label>
+          {{ form.username }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="phone">Phone Number</label>
+          {{ form.phone_number }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="address">Street Address</label>
+          {{ form.street_address }}
+        </div>
+
+      
+
+       
+
+        <hr class="my-4">
+
+      
+
+        <div class="form-check mb-4">
+          <input {% if form.save_info.value %}checked{% endif %} class="form-check-input" type="checkbox" id="save-info">
+          <label class="form-check-label" for="save-info">
+            Save this information for future purchases
+          </label>
+        </div>
+
+        <h4 class="mb-3">Payment Method</h4>
+        <div class="my-3">
+         <div class="form-check">
+  <input id="Online" name="payment_option" value="Online" type="radio" class="form-check-input" disabled>
+  <label class="form-check-label text-muted" for="Online">
+    Online Payment (Coming Soon)
+  </label>
+</div>
+
+          <div class="form-check">
+            <input id="COD" name="payment_option" value="Cash on Delivery" type="radio" class="form-check-input" required>
+            <label class="form-check-label" for="COD">Cash on Delivery</label>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="mb-3">
+          <label class="form-label" for="note">Order Note <span class="text-muted">(Optional)</span></label>
+          <textarea name="note" id="note" class="form-control" rows="4" placeholder="Write any specific request for delivery..."></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Place Order</button>
+      </form>
+    </div>
+
+    {% include "order_snippet.html" %}
+  </div>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+   
+  </footer>
+</div>
+
+{% endblock content %}
