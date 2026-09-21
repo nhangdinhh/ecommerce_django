@@ -35,11 +35,18 @@
 
 							{% categories %}
 
-							{% if request.user.is_authenticated %}
 							<li>
-								<div class="header-wrapicon2">
+								<form action="{% url 'core:shop' %}" method="GET" class="search-container ml-4" style="max-width: 250px; margin-top: -5px;">
+									<i class="fa fa-search"></i>
+									<input type="text" name="q" placeholder="Search products..." value="{{ request.GET.q }}">
+								</form>
+							</li>
+							{% if request.user.is_authenticated %}
+							<li><a href="{% url 'core:profile' %}">Profile</a></li>
+							<li><a href="{% url 'core:wishlist' %}">Wishlist</a></li>
+							<li>
+								<div class="header-wrapicon2" style="margin-top: 5px;">
 								<a href="{% url 'core:order-summary' %}">
-									
 									<img src="{% static 'images/icons/icon-header-02.png' %}" class="header-icon1 js-show-header-dropdown" alt="ICON">
 						<span class="header-icons-noti">{{ request.user|cart_item_count }}</span>
 									</a>

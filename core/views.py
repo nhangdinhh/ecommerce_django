@@ -8,9 +8,8 @@ from django.views.generic import ListView, DetailView, View
 from django.shortcuts import redirect
 from django.utils import timezone
 from .forms import CheckoutForm, CouponForm, RefundForm
-from .models import Item, OrderItem, Order, BillingAddress, Payment, Coupon, Refund, Category
+from .models import Item, OrderItem, Order, BillingAddress, Payment, Coupon, Refund, Category, UserProfile, Wishlist, Review
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
 from django.shortcuts import render
 # Create your views here.
 import random
@@ -107,8 +106,14 @@ class PaymentView(View):
 
 class HomeView(ListView):
     template_name = "index.html"
-    queryset = Item.objects.filter(is_active=True)
     context_object_name = 'items'
+
+    def get_queryset(self):
+        qs = Item.objects.filter(is_active=True)
+        q = self.request.GET.get('q')
+        if q:
+            qs = qs.filter(title__icontains=q)
+        return qs
 
 
 class OrderSummaryView(LoginRequiredMixin, View):
@@ -128,6 +133,13 @@ class ShopView(ListView):
     model = Item
     paginate_by = 6
     template_name = "shop.html"
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        q = self.request.GET.get('q')
+        if q:
+            qs = qs.filter(title__icontains=q)
+        return qs
 
 
 class ItemDetailView(DetailView):
@@ -376,3 +388,63 @@ class RequestRefundView(View):
             except ObjectDoesNotExist:
                 messages.info(self.request, "This order does not exist")
                 return redirect("core:request-refund")
+
+@login_required
+def profile_view(request):
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+    orders = Order.objects.filter(user=request.user, ordered=True).order_by('-ordered_date')
+    context = {
+        'profile': user_profile,
+        'orders': orders
+    }
+    return render(request, "profile.html", context)
+
+@login_required
+def wishlist_view(request):
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    context = {
+        'wishlist': wishlist
+    }
+    return render(request, "wishlist.html", context)
+
+@login_required
+def add_to_wishlist(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    if item in wishlist.items.all():
+        messages.info(request, "This item is already in your wishlist.")
+    else:
+        wishlist.items.add(item)
+        messages.success(request, "Item added to your wishlist.")
+    return redirect("core:product", slug=slug)
+
+@login_required
+def remove_from_wishlist(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    wishlist = get_object_or_404(Wishlist, user=request.user)
+    if item in wishlist.items.all():
+        wishlist.items.remove(item)
+        messages.success(request, "Item removed from your wishlist.")
+    return redirect("core:wishlist")
+
+@login_required
+def add_review(request, slug):
+    if request.method == "POST":
+        item = get_object_or_404(Item, slug=slug)
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment')
+        
+        # Check if user already ordered this item (optional business logic, but good practice)
+        has_ordered = OrderItem.objects.filter(user=request.user, item=item, ordered=True).exists()
+        if not has_ordered:
+            messages.warning(request, "You can only review products you have purchased.")
+            return redirect("core:product", slug=slug)
+
+        Review.objects.create(
+            user=request.user,
+            item=item,
+            rating=rating,
+            comment=comment
+        )
+        messages.success(request, "Your review has been submitted!")
+    return redirect("core:product", slug=slug)

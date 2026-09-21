@@ -1,0 +1,628 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <title>Home</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--===============================================================================================-->
+  <link
+    rel="icon"
+    type="image/png"
+    href="/static/images/icons/favicon.png"
+  />
+  <!--===============================================================================================-->
+
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    crossorigin="anonymous"
+  />
+
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/static/fonts/font-awesome-4.7.0/css/font-awesome.min.css"
+  />
+  <!--===============================================================================================-->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/static/fonts/themify/themify-icons.css"
+  />
+  <!--===============================================================================================-->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/static/fonts/Linearicons-Free-v1.0.0/icon-font.min.css"
+  />
+  <!--===============================================================================================-->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/static/fonts/elegant-font/html-css/style.css"
+  />
+  <!--===============================================================================================-->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/static/vendor/animate/animate.css"
+  />
+  <!--===============================================================================================-->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/static/vendor/css-hamburgers/hamburgers.min.css"
+  />
+  <!--===============================================================================================-->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/static/vendor/animsition/css/animsition.min.css"
+  />
+  <!--===============================================================================================-->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/static/vendor/select2/select2.min.css"
+  />
+  <!--===============================================================================================-->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/static/vendor/daterangepicker/daterangepicker.css"
+  />
+  <!--===============================================================================================-->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/static/vendor/slick/slick.css"
+  />
+  <!--===============================================================================================-->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/static/vendor/lightbox2/css/lightbox.min.css"
+  />
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="/static/css/util.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css">
+  <!--===============================================================================================-->
+</head>
+
+
+  <title>Sign In</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="/static/css/custom.css" rel="stylesheet">
+  <style type="text/css">
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    .wrapper {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .content {
+      flex: 1;
+    }
+    .form-control {
+      display: block;
+      width: 100%;
+      height: calc(1.5em + .75rem + 2px);
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da !important;
+      border-radius: .25rem;
+      transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+  </style>
+  <body class="animsition">
+    <div class="wrapper">
+      
+
+
+
+<style>
+	.topbar {
+		background-color: white;
+		color: black !important;
+	}
+	.topbar a:hover{
+		color: black;
+	}
+</style>
+<!-- Header -->
+<header class="header1">
+		<!-- Header desktop -->
+		<div class="container-menu-header">
+			<div class="wrap_header">
+				<!-- Logo -->
+				<a href="/" class="logo">
+					<p style="color: black; "><b style="font-size: 22px;">N</b>hang Shop</p>
+				</a>
+
+				<!-- Menu -->
+				<div class="wrap_menu">
+					<nav class="menu">
+						<ul class="main_menu">
+							<li>
+								<a href="/">Home</a>
+							</li>
+
+							<li>
+								<a href="/shop/">Shop</a>
+							</li>
+
+							<li><a href="/category/bags">Bags</a></li><li><a href="/category/dresses">Dresses</a></li><li><a href="/category/Pants">Pants</a></li><li><a href="/category/Shirts">Shirts</a></li><li><a href="/category/Shoes">Shoes</a></li><li><a href="/category/watches">Watches</a></li>
+
+							<li>
+								<form action="/shop/" method="GET" class="search-container ml-4" style="max-width: 250px; margin-top: -5px;">
+									<i class="fa fa-search"></i>
+									<input type="text" name="q" placeholder="Search products..." value="">
+								</form>
+							</li>
+							
+							<li>
+								<a href="#">Login</a>
+								<ul class="sub_menu">
+									<li><a href="/accounts/login/">Login</a></li>
+									<li><a href="/accounts/signup/">SignUp</a></li>
+								</ul>
+							</li>
+							
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+
+		<!-- Header Mobile -->
+		<div class="wrap_header_mobile">
+			<!-- Logo moblie -->
+			<a href="index.html" class="logo-mobile">
+				
+			</a>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu">
+				<!-- Header Icon mobile -->
+				<div class="header-icons-mobile">
+					<a href="#" class="header-wrapicon1 dis-block">
+						<img src="/static/images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
+					</a>
+
+					<span class="linedivide2"></span>
+
+					<div class="header-wrapicon2">
+						<img src="/static/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+						<span class="header-icons-noti">0</span>
+
+						<!-- Header cart noti -->
+						<div class="header-cart header-dropdown">
+							<ul class="header-cart-wrapitem">
+								<li class="header-cart-item">
+									<div class="header-cart-item-img">
+										<img src="/static/images/item-cart-01.jpg" alt="IMG">
+									</div>
+
+									<div class="header-cart-item-txt">
+										<a href="#" class="header-cart-item-name">
+											White Shirt With Pleat Detail Back
+										</a>
+
+										<span class="header-cart-item-info">
+											1 x $19.00
+										</span>
+									</div>
+								</li>
+
+								<li class="header-cart-item">
+									<div class="header-cart-item-img">
+										<img src="/static/images/item-cart-02.jpg" alt="IMG">
+									</div>
+
+									<div class="header-cart-item-txt">
+										<a href="#" class="header-cart-item-name">
+											Converse All Star Hi Black Canvas
+										</a>
+
+										<span class="header-cart-item-info">
+											1 x $39.00
+										</span>
+									</div>
+								</li>
+
+								<li class="header-cart-item">
+									<div class="header-cart-item-img">
+										<img src="/static/images/item-cart-03.jpg" alt="IMG">
+									</div>
+
+									<div class="header-cart-item-txt">
+										<a href="#" class="header-cart-item-name">
+											Nixon Porter Leather Watch In Tan
+										</a>
+
+										<span class="header-cart-item-info">
+											1 x $17.00
+										</span>
+									</div>
+								</li>
+							</ul>
+
+							<div class="header-cart-total">
+								Total: $75.00
+							</div>
+
+							<div class="header-cart-buttons">
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										View Cart
+									</a>
+								</div>
+
+								<div class="header-cart-wrapbtn">
+									<!-- Button -->
+									<a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+										Check Out
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Menu Mobile -->
+		<div class="wrap-side-menu" >
+			<nav class="side-menu">
+				<ul class="main-menu">
+					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+						<span class="topbar-child1">
+							Free shipping for standard order over $100
+						</span>
+					</li>
+
+					<li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+						<div class="topbar-child2-mobile">
+							<span class="topbar-email">
+								fashe@example.com
+							</span>
+
+							<div class="topbar-language rs1-select2">
+								<select class="selection-1" name="time">
+									<option>USD</option>
+									<option>EUR</option>
+								</select>
+							</div>
+						</div>
+					</li>
+
+					<li class="item-topbar-mobile p-l-10">
+						<div class="topbar-social-mobile">
+							<a href="#" class="topbar-social-item fa fa-facebook"></a>
+							<a href="#" class="topbar-social-item fa fa-instagram"></a>
+							<a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
+							<a href="#" class="topbar-social-item fa fa-snapchat-ghost"></a>
+							<a href="#" class="topbar-social-item fa fa-youtube-play"></a>
+						</div>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="/">Home</a>
+					</li>
+
+					<li class="item-menu-mobile">
+						<a href="/shop">Shop</a>
+					</li>
+
+					<li class="item-menu-mobile"><a href="/category/bags">Bags</a></li><li class="item-menu-mobile"><a href="/category/dresses">Dresses</a></li><li class="item-menu-mobile"><a href="/category/Pants">Pants</a></li><li class="item-menu-mobile"><a href="/category/Shirts">Shirts</a></li><li class="item-menu-mobile"><a href="/category/Shoes">Shoes</a></li><li class="item-menu-mobile"><a href="/category/watches">Watches</a></li>
+
+					
+					<li class="item-menu-mobile">
+						<a href="#">Login</a>
+						<ul class="sub-menu">
+							<li><a href="/accounts/login/">Login</a></li>
+							<li><a href="/accounts/signup/">SignUp</a></li>
+						</ul>
+						<i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
+					</li>
+					
+				</ul>
+			</nav>
+		</div>
+	</header>
+      <div class="mt-2 content">
+        
+
+        
+
+<style>
+  body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .signin-container {
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .signin-container h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #343a40;
+  }
+
+  .signin-container p {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 25px;
+    color: #6c757d;
+  }
+
+  .signin-container p a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .signin-container p a:hover {
+    text-decoration: underline;
+  }
+
+  .signin-container input {
+    border: 1px solid #ced4da !important;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+
+  .signin-container .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+
+  .signin-container .btn-outline-dark {
+    background-color: #fff;
+    color: #343a40;
+    border-color: #343a40;
+  }
+
+  .signin-container .btn-outline-dark:hover {
+    background-color: #343a40;
+    color: #fff;
+  }
+</style>
+
+<div class="signin-container">
+  <h1>Sign In</h1>
+
+  
+  
+    <div class="socialaccount_ballot">
+      
+    </div>
+    
+
+
+
+  
+
+  <form class="login" method="POST" action="/accounts/login/">
+    <input type="hidden" name="csrfmiddlewaretoken" value="lH5KPUZgKrOmUvIThKSPahpUegwhWGFtnTRDXhdcpxBDEJv594TRw3AmA0iGrpis">
+    
+
+<div id="div_id_login" class="form-group"> <label for="id_login" class=" requiredField">
+                Login<span class="asteriskField">*</span> </label> <div> <input type="text" name="login" placeholder="Username or email" autocomplete="email" class="textinput form-control" required id="id_login"> </div> </div> <div id="div_id_password" class="form-group"> <label for="id_password" class=" requiredField">
+                Password<span class="asteriskField">*</span> </label> <div> <input type="password" name="password" placeholder="Password" autocomplete="current-password" class="passwordinput form-control" required aria-describedby="id_password_helptext" id="id_password"> <small id="id_password_helptext" class="form-text text-muted"><a href="/accounts/password/reset/">Forgot your password?</a></small> </div> </div> <div class="form-group"> <div id="div_id_remember" class="form-check"> <input type="checkbox" name="remember" class="checkboxinput form-check-input" id="id_remember"> <label for="id_remember" class="form-check-label">
+                    
+                        Remember Me
+                    
+                </label> </div> </div>
+
+    
+    <a class="btn btn-outline-dark" href="/accounts/password/reset/">Forgot Password?</a>
+    <button class="btn btn-primary" type="submit">Sign In</button>
+  </form>
+</div>
+
+
+      </div>
+
+      
+      
+
+      
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700|Open+Sans:400,600&display=swap" rel="stylesheet">
+<!-- Tailwind CSS CDN -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<style>
+    #footer-main {
+        background: #1a252f;
+        color: #e2e8f0;
+        font-family: 'Lato', sans-serif;
+    }
+
+    #footer-main a {
+        color: #a0aec0;
+        transition: color 0.2s ease-in-out;
+    }
+
+    #footer-main a:hover {
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+    #footer-main h6 a {
+        color: #ffffff;
+        font-weight: 700;
+    }
+
+    #footer-main hr {
+        border-top: 1px solid #4a5568;
+    }
+
+    #footer-main .social-icons a {
+        margin-right: 1rem;
+        font-size: 1.5rem;
+    }
+</style>
+
+<footer id="footer-main" class="py-12">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- About Section -->
+            <div>
+                <h6 class="text-lg font-bold mb-4"><a href="#">About Nhang Shop</a></h6>
+                <a href="#" class="block mb-2">Our Story</a>
+                <a href="#" class="block mb-2">Blog</a>
+                <a href="#" class="block mb-2">Careers</a>
+                <a href="#" class="block mb-2">Press & Media</a>
+            </div>
+            <!-- Customer Service Section -->
+            <div>
+                <h6 class="text-lg font-bold mb-4"><a href="#">Customer Service</a></h6>
+                <a href="#" class="block mb-2">Order Tracking</a>
+                <a href="#" class="block mb-2">Shipping Information</a>
+                <a href="#" class="block mb-2">Returns & Refunds</a>
+                <a href="#" class="block mb-2">Contact Support</a>
+            </div>
+            <!-- Connect Section -->
+            <div>
+                <h6 class="text-lg font-bold mb-4"><a href="#">Join Our Community</a></h6>
+                <a href="#" class="block mb-2">Become a Member</a>
+                <a href="#" class="block mb-2">Stay Updated</a>
+                <a href="#" class="block mb-2">Membership Benefits</a>
+                <a href="/admin/" class="block mb-2">Community Events</a>
+            </div>
+            <!-- Social & Apps Section -->
+            <div>
+                <h6 class="text-lg font-bold mb-4"><a href="#">Connect With Us</a></h6>
+                <div class="social-icons flex mb-4">
+                    <a href="#" class="fab fa-facebook"></a>
+                    <a href="#" class="fab fa-instagram"></a>
+                    <a href="#" class="fab fa-twitter"></a>
+                    <a href="#" class="fab fa-youtube"></a>
+                </div>
+                <a href="#" class="block mb-2"><i class="fab fa-apple mr-2"></i> App Store</a>
+                <a href="#" class="block mb-2"><i class="fab fa-google-play mr-2"></i> Google Play</a>
+            </div>
+        </div>
+        <hr class="my-8">
+        <div class="text-center">
+            <p class="text-sm">&copy; 2025 Nhang Shop. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+
+    </div>
+
+    
+
+<script
+  type="text/javascript"
+  src="/static/vendor/jquery/jquery-3.2.1.min.js"
+></script>
+
+<script
+  type="text/javascript"
+  src="/static/vendor/animsition/js/animsition.min.js"
+></script>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+  crossorigin="anonymous"
+></script>
+
+<script
+  type="text/javascript"
+  src="/static/vendor/select2/select2.min.js"
+></script>
+<script type="text/javascript">
+  $(".selection-1").select2({
+    minimumResultsForSearch: 20,
+    dropdownParent: $("#dropDownSelect1")
+  });
+</script>
+
+<script
+  type="text/javascript"
+  src="/static/vendor/slick/slick.min.js"
+></script>
+<script type="text/javascript" src="/static/js/slick-custom.js"></script>
+
+<script
+  type="text/javascript"
+  src="/static/vendor/countdowntime/countdowntime.js"
+></script>
+
+<script
+  type="text/javascript"
+  src="/static/vendor/lightbox2/js/lightbox.min.js"
+></script>
+<script crossorigin src="/static/js/react.development.js"></script>
+<script crossorigin src="/static/js/react-dom.development.js"></script>
+
+<script
+  type="text/javascript"
+  src="/static/vendor/sweetalert/sweetalert.min.js"
+></script>
+<script type="text/javascript">
+  $(".block2-btn-addcart").each(function() {
+    var nameProduct = $(this)
+      .parent()
+      .parent()
+      .parent()
+      .find(".block2-name")
+      .html();
+    $(this).on("click", function() {
+      swal(nameProduct, "is added to cart !", "success");
+    });
+  });
+</script>
+
+<script src="/static/js/main.js"></script>
+
+    
+    
+  </body>
+</html>

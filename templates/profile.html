@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-12 text-center mb-4">
+            <h2 class="text-gradient">My Profile</h2>
+        </div>
+    </div>
+    
+    <div class="profile-grid">
+        <!-- Profile Sidebar -->
+        <div class="glass-panel p-4 text-center">
+            {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" alt="Avatar" class="rounded-circle mb-3 shadow-md" style="width: 150px; height: 150px; object-fit: cover;">
+            {% else %}
+                <img src="{% static 'images/avatar-default.png' %}" alt="Avatar" class="rounded-circle mb-3 shadow-md" style="width: 150px; height: 150px; object-fit: cover; background: #eee;">
+            {% endif %}
+            <h4 class="mb-1">{{ request.user.username }}</h4>
+            <p class="text-muted">{{ request.user.email }}</p>
+            <hr>
+            <div class="text-left">
+                <p><strong>Phone:</strong> {{ profile.phone|default:"Not set" }}</p>
+                <p><strong>Address:</strong> {{ profile.address|default:"Not set" }}</p>
+            </div>
+            <!-- Update button could go here -->
+        </div>
+
+        <!-- Order History -->
+        <div class="glass-panel p-4">
+            <h4 class="mb-4">Order History</h4>
+            {% if orders %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td>#{{ order.ref_code }}</td>
+                                <td>{{ order.ordered_date|date:"F j, Y" }}</td>
+                                <td>${{ order.get_total }}</td>
+                                <td>
+                                    {% if order.refund_requested %}
+                                        <span class="badge badge-warning">Refund Requested</span>
+                                    {% elif order.refund_granted %}
+                                        <span class="badge badge-danger">Refunded</span>
+                                    {% elif order.received %}
+                                        <span class="badge badge-success">Received</span>
+                                    {% elif order.being_delivered %}
+                                        <span class="badge badge-info">Shipped</span>
+                                    {% else %}
+                                        <span class="badge badge-primary">Processing</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center p-5">
+                    <h5 class="text-muted">You haven't placed any orders yet.</h5>
+                    <a href="{% url 'core:shop' %}" class="btn btn-premium mt-3">Start Shopping</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

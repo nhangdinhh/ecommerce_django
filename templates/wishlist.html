@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h2 class="text-gradient">My Wishlist</h2>
+            <p class="text-muted">Save your favorite items here.</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        {% if wishlist.items.all %}
+            {% for item in wishlist.items.all %}
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="product-card">
+                    <div class="img-wrapper">
+                        {% if item.image %}
+                        <img src="{{ item.image.url }}" class="w-100" alt="{{ item.title }}" style="height: 250px; object-fit: cover;">
+                        {% endif %}
+                        <div class="position-absolute" style="top: 10px; right: 10px;">
+                            <a href="{% url 'core:remove-from-wishlist' item.slug %}" class="btn btn-sm btn-danger rounded-circle shadow" title="Remove">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-3 text-center">
+                        <h5 class="mb-2">{{ item.title }}</h5>
+                        <p class="font-weight-bold text-gradient mb-3">
+                            {% if item.discount_price %}
+                            ${{ item.discount_price }} <span class="text-muted" style="text-decoration: line-through; font-size: 0.9em;">${{ item.price }}</span>
+                            {% else %}
+                            ${{ item.price }}
+                            {% endif %}
+                        </p>
+                        <a href="{{ item.get_absolute_url }}" class="btn btn-premium btn-block">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center py-5 glass-panel">
+                <i class="fa fa-heart-o text-muted mb-3" style="font-size: 4rem;"></i>
+                <h4 class="text-muted">Your wishlist is empty.</h4>
+                <a href="{% url 'core:shop' %}" class="btn btn-premium mt-3">Discover Products</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

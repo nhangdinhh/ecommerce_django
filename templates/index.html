@@ -154,13 +154,13 @@
 					{% for item in object_list %}
 					
 					<div class="item-slick2 p-l-15 p-r-15">
-						<!-- Block2 -->
-						<div class="block2">
+						<!-- Block2 Premium -->
+						<div class="product-card">
 							
-							<div class="block2-img wrap-pic-w of-hidden pos-relative block2-label{{item.get_label_display}}">
+							<div class="img-wrapper block2-label{{item.get_label_display}}">
 								<a href="{{item.get_absolute_url}}">
 								<img src="{{ item.image.url }}" alt="IMG-PRODUCT" 
-								style="height: 370px; width:100%; "></a>
+								style="height: 370px; width:100%; object-fit: cover;"></a>
 							   
 
 								<!-- <div class="block2-overlay trans-0-4">

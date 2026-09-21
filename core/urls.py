@@ -12,7 +12,12 @@ from .views import (
     PaymentView,
     AddCouponView,
     RequestRefundView,
-    CategoryView
+    CategoryView,
+    profile_view,
+    wishlist_view,
+    add_to_wishlist,
+    remove_from_wishlist,
+    add_review
 )
 
 app_name = 'core'
@@ -31,6 +36,10 @@ urlpatterns = [
          name='remove-single-item-from-cart'),
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
-    path('order-success/', order_success_view, name='order-success')
-
+    path('order-success/', order_success_view, name='order-success'),
+    path('profile/', profile_view, name='profile'),
+    path('wishlist/', wishlist_view, name='wishlist'),
+    path('add-to-wishlist/<slug>/', add_to_wishlist, name='add-to-wishlist'),
+    path('remove-from-wishlist/<slug>/', remove_from_wishlist, name='remove-from-wishlist'),
+    path('add-review/<slug>/', add_review, name='add-review')
 ]
