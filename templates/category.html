@@ -21,14 +21,14 @@
 </style>
 
 	<!-- Title Page -->
-	<section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" 
-         style="background: linear-gradient(to right, #e0e0e0, #f5f5f5);">
+	<section class="bg-title-page p-t-100 p-b-100 flex-col-c-m" 
+         style="background: linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(75, 85, 99, 0.9)), url('{% static 'images/heading-pages-02.jpg' %}') no-repeat center center; background-size: cover; position: relative;">
 
-		<h2 class="l-text2 t-center">
-			{{ category_title }}
+		<h2 class="l-text2 t-center text-white" style="font-weight: 800; font-size: 3.5rem; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+			{{ category_title|upper }}
 		</h2>
-		<p class="m-text13 t-center">
-			{{ category_description }}
+		<p class="m-text13 t-center text-white mt-2" style="font-size: 1.2rem; font-weight: 500;">
+			{{ category_description|default:"Discover Our Premium Collection" }}
 		</p>
 	</section>
 
@@ -55,14 +55,15 @@
 
 						</ul>
 
-						<!--  -->
-						<h4 class="m-text14 p-b-32">
-							Filters
+
+						<!-- Advanced Filters -->
+						<h4 class="m-text14 p-b-7 p-t-30" style="border-top: 1px solid #e6e6e6; margin-top: 30px; padding-top: 30px;">
+							Advanced Filters
 						</h4>
 
-						<div class="filter-price p-t-22 p-b-50 bo3">
+						<div class="filter-price p-t-22 p-b-20 bo3">
 							<div class="m-text15 p-b-17">
-								Price
+								Price Range
 							</div>
 
 							<div class="wra-filter-bar">
@@ -78,12 +79,12 @@
 								</div>
 
 								<div class="s-text3 p-t-10 p-b-10">
-									Range: $<span id="value-lower">0</span> - $<span id="value-upper">???</span>
+									Range: $<span id="value-lower">0</span> - $<span id="value-upper">200</span>
 								</div>
 							</div>
 						</div>
 
-						<div class="filter-color p-t-22 p-b-50 bo3">
+						<div class="filter-color p-t-22 p-b-20 bo3">
 							<div class="m-text15 p-b-12">
 								Color
 							</div>
@@ -126,13 +127,6 @@
 							</ul>
 						</div>
 
-						<div class="search-product pos-relative bo4 of-hidden">
-							<input class="s-text7 size6 p-l-23 p-r-50" type="text" name="search-product" placeholder="Search Products...">
-
-							<button class="flex-c-m size5 ab-r-m color2 color0-hov trans-0-4">
-								<i class="fs-12 fa fa-search" aria-hidden="true"></i>
-							</button>
-						</div>
 					</div>
 				</div>
 
@@ -163,48 +157,65 @@
 							</div>
 						</div>
 
-						<span class="s-text8 p-t-5 p-b-5">
-							Showing 1–12 of 16 results
-						</span>
+						<div class="search-product pos-relative bo4 of-hidden" style="width: 250px; height: 40px;">
+							<form method="GET" action="{% url 'core:shop' %}" style="height: 100%;">
+								<input class="s-text7 p-l-23 p-r-50" type="text" name="q" placeholder="Search Products..." style="width: 100%; height: 100%; border: none; outline: none;">
+								<button type="submit" class="flex-c-m ab-r-m color2 color0-hov trans-0-4" style="height: 100%; width: 40px; border: none; background: transparent;">
+									<i class="fs-12 fa fa-search" aria-hidden="true"></i>
+								</button>
+							</form>
+						</div>
 					</div>
 
 					<!-- Product -->
 					<div class="row">
 						{% for item in object_list %}
 						<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-							<!-- Block2 -->
-							<div class="block2">
-								<a href="{{item.get_absolute_url}}">
-								<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+							<!-- Block2 Premium -->
+							<div class="product-card">
+								<div class="img-wrapper block2-labelnew">
+									<a href="{{item.get_absolute_url}}">
 									<img src="{{ item.image.url }}" alt="IMG-PRODUCT" 
-								style="height: 360px;">
+								style="height: 360px; object-fit: cover;">
+									</a>
 
 								  
-									<!-- <div class="block2-overlay trans-0-4">
-										<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+									<div class="block2-overlay trans-0-4">
+										<!-- Link covering the whole overlay -->
+										<a href="{{item.get_absolute_url}}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></a>
+
+										<a href="{% url 'core:add-to-wishlist' item.slug %}" class="block2-btn-addwishlist hov-pointer trans-0-4" style="z-index: 2;">
 											<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
 											<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-										</a> -->
+										</a>
 
-										<!-- <div class="block2-btn-addcart w-size1 trans-0-4"> -->
+										<div class="block2-btn-addcart w-size1 trans-0-4" style="z-index: 2;">
 											<!-- Button -->
-											<!-- <a class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+											<a href="{% url 'core:add-to-cart' item.slug %}" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" style="color: white;">
 												Add to Cart
 											</a>
-										</div> -->
-									<!-- </div> -->
-									
+										</div>
+									</div>
 								</div>
-							</a>
 
-								<div class="block2-txt p-t-20">
-									<a href="{{item.get_absolute_url}}" class="block2-name dis-block s-text3 p-b-5">
+								<div class="block2-txt p-t-20 p-b-20" style="background: #fff; padding: 15px 10px; text-align: center;">
+									<a href="{{item.get_absolute_url}}" class="block2-name dis-block p-b-5" style="color: #333; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase;">
 										{{item.title}}
 									</a>
 
-									<span class="block2-price m-text6 p-r-5">
+									{% if item.discount_price %}
+									<span class="block2-oldprice m-text7 p-r-5" style="color: #999; text-decoration: line-through; font-size: 0.9rem;">
+										${{ item.price }}
+									</span>
+
+									<span class="block2-newprice m-text8 p-r-5" style="color: #e65540; font-weight: 700; font-size: 1.1rem;">
+										${{ item.discount_price }}
+									</span>
+									{% else %}
+									<span class="block2-price m-text6 p-r-5" style="color: #666; font-weight: 500; font-size: 1.1rem;">
 										${{item.price}}
 									</span>
+									{% endif %}
 								</div>
 							</div>
 						</div>

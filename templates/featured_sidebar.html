@@ -1,0 +1,32 @@
+<div class="row">
+    {% for item in items %}
+    <div class="col-sm-6 col-md-4 p-b-50">
+        <div class="product-card">
+            <div class="img-wrapper block2-labelnew">
+                <a href="{{item.get_absolute_url}}">
+                    <img src="{{ item.image.url }}" alt="IMG-PRODUCT" style="height: 360px; object-fit: cover; width: 100%;">
+                </a>
+            </div>
+            <div class="block2-txt p-t-20 p-b-20" style="background: #fff; padding: 15px 10px; text-align: center;">
+                <a href="{{item.get_absolute_url}}" class="block2-name dis-block p-b-5" style="color: #333; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase;">
+                    {{ item.title }}
+                </a>
+
+                {% if item.discount_price %}
+                <span class="block2-oldprice m-text7 p-r-5" style="color: #999; text-decoration: line-through; font-size: 0.9rem;">
+                    ${{ item.price }}
+                </span>
+
+                <span class="block2-newprice m-text8 p-r-5" style="color: #e65540; font-weight: 700; font-size: 1.1rem;">
+                    ${{ item.discount_price }}
+                </span>
+                {% else %}
+                <span class="block2-price m-text6 p-r-5" style="color: #666; font-weight: 500; font-size: 1.1rem;">
+                    ${{ item.price }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

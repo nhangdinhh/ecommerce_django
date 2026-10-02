@@ -7,7 +7,7 @@
   {% block extra_head %}{% endblock %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="{% static 'css/custom.css' %}" rel="stylesheet">
   <style type="text/css">
     html, body {
@@ -42,16 +42,7 @@
     <div class="wrapper">
       {% include "nav.html" %}
       <div class="mt-2 content">
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-              {{ message }}
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          {% endfor %}
-        {% endif %}
+
 
         {% block content %}
         {% endblock content %}
@@ -64,6 +55,23 @@
     </div>
 
     {% include "script.html" %}
+    {% if messages %}
+    <script>
+      $(document).ready(function() {
+        {% for message in messages %}
+          swal({
+            title: "Notification",
+            text: "{{ message|escapejs }}",
+            icon: "{{ message.tags }}" === "error" ? "error" : "success",
+            type: "{{ message.tags }}" === "error" ? "error" : "success",
+            timer: 1500,
+            buttons: false,
+            showConfirmButton: false
+          });
+        {% endfor %}
+      });
+    </script>
+    {% endif %}
     {% block extra_scripts %}
     {% endblock extra_scripts %}
   </body>

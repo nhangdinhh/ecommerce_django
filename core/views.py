@@ -139,6 +139,17 @@ class ShopView(ListView):
         q = self.request.GET.get('q')
         if q:
             qs = qs.filter(title__icontains=q)
+            
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+        try:
+            if min_price:
+                qs = qs.filter(price__gte=float(min_price))
+            if max_price:
+                qs = qs.filter(price__lte=float(max_price))
+        except ValueError:
+            pass
+            
         return qs
 
 
@@ -151,17 +162,33 @@ class ItemDetailView(DetailView):
 #     model = Category
 #     template_name = "category.html"
 
-class CategoryView(View):
-    def get(self, *args, **kwargs):
+class CategoryView(ListView):
+    model = Item
+    template_name = "category.html"
+    paginate_by = 6
+
+    def get_queryset(self):
         category = Category.objects.get(slug=self.kwargs['slug'])
-        item = Item.objects.filter(category=category, is_active=True)
-        context = {
-            'object_list': item,
-            'category_title': category,
-            'category_description': category.description,
-            'category_image': category.image
-        }
-        return render(self.request, "category.html", context)
+        qs = Item.objects.filter(category=category, is_active=True)
+        
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+        try:
+            if min_price:
+                qs = qs.filter(price__gte=float(min_price))
+            if max_price:
+                qs = qs.filter(price__lte=float(max_price))
+        except ValueError:
+            pass
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = Category.objects.get(slug=self.kwargs['slug'])
+        context['category_title'] = category
+        context['category_description'] = category.description
+        context['category_image'] = category.image
+        return context
 
 
 # views.py
@@ -349,7 +376,24 @@ def get_coupon(request, code):
 
 class AddCouponView(View):
     def post(self, *args, **kwargs):
-        # Bỏ qua form xử lý thật, chỉ redirect về trang checkout
+        form = CouponForm(self.request.POST or None)
+        if form.is_valid():
+            try:
+                code = form.cleaned_data.get('code')
+                order = Order.objects.get(user=self.request.user, ordered=False)
+                try:
+                    coupon = Coupon.objects.get(code=code)
+                    order.coupon = coupon
+                    order.save()
+                    messages.success(self.request, f"Successfully applied coupon: {code}")
+                    return redirect("core:checkout")
+                except ObjectDoesNotExist:
+                    messages.info(self.request, "This coupon does not exist")
+                    return redirect("core:checkout")
+            except ObjectDoesNotExist:
+                messages.info(self.request, "You do not have an active order")
+                return redirect("core:checkout")
+        
         messages.warning(self.request, "Invalid coupon code")
         return redirect("core:checkout")
 

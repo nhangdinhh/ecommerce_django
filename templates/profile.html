@@ -3,27 +3,53 @@
 {% block content %}
 <div class="container mt-5 mb-5">
     <div class="row">
-        <div class="col-12 text-center mb-4">
-            <h2 class="text-gradient">My Profile</h2>
+        <div class="col-12 mb-4">
+            <h2 style="font-weight: 700; font-size: 1.8rem; letter-spacing: -0.5px; color: #1a1a1a;">My Profile</h2>
         </div>
     </div>
     
     <div class="profile-grid">
         <!-- Profile Sidebar -->
-        <div class="glass-panel p-4 text-center">
-            {% if profile.avatar %}
-                <img src="{{ profile.avatar.url }}" alt="Avatar" class="rounded-circle mb-3 shadow-md" style="width: 150px; height: 150px; object-fit: cover;">
-            {% else %}
-                <img src="{% static 'images/avatar-default.png' %}" alt="Avatar" class="rounded-circle mb-3 shadow-md" style="width: 150px; height: 150px; object-fit: cover; background: #eee;">
-            {% endif %}
-            <h4 class="mb-1">{{ request.user.username }}</h4>
-            <p class="text-muted">{{ request.user.email }}</p>
-            <hr>
-            <div class="text-left">
-                <p><strong>Phone:</strong> {{ profile.phone|default:"Not set" }}</p>
-                <p><strong>Address:</strong> {{ profile.address|default:"Not set" }}</p>
+        <div class="glass-panel p-0 text-center position-relative overflow-hidden" style="border-radius: var(--border-radius-lg);">
+            <!-- Top Banner for Profile -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 120px; background: linear-gradient(135deg, #1f2937, #4b5563); opacity: 0.85; z-index: 0;"></div>
+            
+            <div class="p-4" style="position: relative; z-index: 1; margin-top: 40px;">
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" alt="Avatar" class="rounded-circle mb-3 shadow-lg" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid white; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                {% else %}
+                    <img src="{% static 'images/avatar-default.png' %}" alt="Avatar" class="rounded-circle mb-3 shadow-lg" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid white; background: #fff; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                {% endif %}
+                <h4 class="mb-1" style="font-weight: 700;">{{ request.user.username }}</h4>
+                <p class="text-muted mb-4">{{ request.user.email }}</p>
+                
+                <div class="text-left px-2">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                        <span class="text-muted"><i class="fa fa-user mr-2"></i> Full Name</span>
+                        <span style="font-weight: 500;">{% if request.user.first_name or request.user.last_name %}{{ request.user.first_name }} {{ request.user.last_name }}{% else %}Not set{% endif %}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                        <span class="text-muted"><i class="fa fa-phone mr-2"></i> Phone</span>
+                        <span style="font-weight: 500;">{{ profile.phone|default:"Not set" }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                        <span class="text-muted"><i class="fa fa-map-marker mr-2"></i> Address</span>
+                        <span style="font-weight: 500; text-align: right; max-width: 60%;">{{ profile.address|default:"Not set" }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                        <span class="text-muted"><i class="fa fa-calendar mr-2"></i> Member Since</span>
+                        <span style="font-weight: 500;">{{ request.user.date_joined|date:"M j, Y" }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                        <span class="text-muted"><i class="fa fa-shopping-bag mr-2"></i> Total Orders</span>
+                        <span style="font-weight: 500;">{{ orders|length }}</span>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline-dark mt-3 w-100" style="border-radius: 9999px;">
+                    Edit Profile
+                </button>
             </div>
-            <!-- Update button could go here -->
         </div>
 
         <!-- Order History -->
@@ -67,7 +93,7 @@
             {% else %}
                 <div class="text-center p-5">
                     <h5 class="text-muted">You haven't placed any orders yet.</h5>
-                    <a href="{% url 'core:shop' %}" class="btn btn-premium mt-3">Start Shopping</a>
+                    <a href="{% url 'core:shop' %}" class="btn btn-dark mt-3" style="border-radius: 9999px;">Start Shopping</a>
                 </div>
             {% endif %}
         </div>

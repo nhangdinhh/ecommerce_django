@@ -2,13 +2,33 @@
 {% load static %}
 
 {% block content %}
-<div class="container text-center mt-5">
-  <h1 class="display-4 text-success">🎉 Order Successful!</h1>
-  <p class="lead">Thank you for your purchase. We’re processing your order now.</p>
-  <a href="{% url 'core:shop' %}" class="btn btn-primary mt-4">Back to Shop</a>
+<section class="bg-title-page p-t-100 p-b-100 flex-col-c-m" 
+         style="background: linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(75, 85, 99, 0.9)), url('{% static 'images/heading-pages-02.jpg' %}') no-repeat center center; background-size: cover; position: relative;">
+	<h2 class="l-text2 t-center text-white" style="font-weight: 800; font-size: 3.5rem; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+		ORDER STATUS
+	</h2>
+	<p class="m-text13 t-center text-white mt-2" style="font-size: 1.2rem; font-weight: 500;">
+		Track Your Purchase
+	</p>
+</section>
+
+<div class="container text-center p-t-80 p-b-100">
+  <div style="max-width: 600px; margin: 0 auto; background: #fff; padding: 60px 30px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.08);">
+    <div style="display: inline-flex; align-items: center; justify-content: center; width: 90px; height: 90px; background-color: #28a745; color: white; border-radius: 50%; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);">
+      <i class="fa fa-check" style="font-size: 40px;"></i>
+    </div>
+    
+    <h2 class="m-text20 p-b-20" style="color: #333; font-size: 2.2rem; font-weight: 600;">Order Successful!</h2>
+    <p class="s-text8 p-b-40" style="font-size: 1.15rem; color: #777; line-height: 1.6;">
+      Thank you for your purchase.<br>
+      Your order has been received and is currently being processed.
+    </p>
+    
+    <div class="flex-w flex-c-m m-t-10">
+      <a href="{% url 'core:shop' %}" class="flex-c-m bg4 bo-rad-23 hov1 s-text1 trans-0-4" style="color: white; width: 220px; height: 50px; font-weight: bold;">
+        Continue Shopping
+      </a>
+    </div>
+  </div>
 </div>
-<br>
-<br>
-<br>
-<br>
 {% endblock %}

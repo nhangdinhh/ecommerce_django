@@ -163,38 +163,40 @@
 								style="height: 370px; width:100%; object-fit: cover;"></a>
 							   
 
-								<!-- <div class="block2-overlay trans-0-4">
-									<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+								<div class="block2-overlay trans-0-4">
+									<a href="{% url 'core:add-to-wishlist' item.slug %}" class="block2-btn-addwishlist hov-pointer trans-0-4">
 										<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
 										<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
 									</a>
-	
-									
-								</div> -->
+
+									<div class="block2-btn-addcart w-size1 trans-0-4">
+										<!-- Button -->
+										<a href="{% url 'core:add-to-cart' item.slug %}" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" style="color: white;">
+											Add to Cart
+										</a>
+									</div>
+								</div>
 							</div>
 							
 
-							<div class="block2-txt p-t-20">
-								<a href="{{item.get_absolute_url}}" class="block2-name dis-block s-text3 p-b-5" style="color: black;">
+							<div class="block2-txt p-t-20 p-b-20" style="background: #fff; padding: 15px 10px; text-align: center;">
+								<a href="{{item.get_absolute_url}}" class="block2-name dis-block p-b-5" style="color: #333; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase;">
 									{{ item.title }}
 								</a>
 
 								{% if item.discount_price %}
-								<span class="block2-oldprice m-text7 p-r-5" style="color: black;">
+								<span class="block2-oldprice m-text7 p-r-5" style="color: #999; text-decoration: line-through; font-size: 0.9rem;">
 									${{ item.price }}
 								</span>
 
-								<span class="block2-newprice m-text8 p-r-5">
+								<span class="block2-newprice m-text8 p-r-5" style="color: #e65540; font-weight: 700; font-size: 1.1rem;">
 									${{ item.discount_price }}
 								</span>
 								{% else %}
-								<span class="block2-price m-text6 p-r-5" style="color: black;">
+								<span class="block2-price m-text6 p-r-5" style="color: #666; font-weight: 500; font-size: 1.1rem;">
 									${{ item.price }}
 								</span>
 								{% endif %}
-								
-
-								
 							</div>
 							
 						</div>

@@ -53,3 +53,9 @@ def categories_div():
             items_div = ""
 
     return mark_safe(item_div_list)
+
+from core.models import Item
+@register.inclusion_tag('featured_sidebar.html')
+def featured_sidebar_items():
+    items = Item.objects.filter(is_active=True).order_by('-id')[:3]
+    return {'items': items}

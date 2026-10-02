@@ -1,50 +1,82 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block head_title %}My Wishlist{% endblock %}
+
 {% block content %}
-<div class="container mt-5 mb-5">
-    <div class="row">
-        <div class="col-12 text-center mb-5">
-            <h2 class="text-gradient">My Wishlist</h2>
-            <p class="text-muted">Save your favorite items here.</p>
-        </div>
-    </div>
-    
-    <div class="row">
-        {% if wishlist.items.all %}
-            {% for item in wishlist.items.all %}
-            <div class="col-md-4 col-sm-6 mb-4">
-                <div class="product-card">
-                    <div class="img-wrapper">
-                        {% if item.image %}
-                        <img src="{{ item.image.url }}" class="w-100" alt="{{ item.title }}" style="height: 250px; object-fit: cover;">
-                        {% endif %}
-                        <div class="position-absolute" style="top: 10px; right: 10px;">
-                            <a href="{% url 'core:remove-from-wishlist' item.slug %}" class="btn btn-sm btn-danger rounded-circle shadow" title="Remove">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="p-3 text-center">
-                        <h5 class="mb-2">{{ item.title }}</h5>
-                        <p class="font-weight-bold text-gradient mb-3">
-                            {% if item.discount_price %}
-                            ${{ item.discount_price }} <span class="text-muted" style="text-decoration: line-through; font-size: 0.9em;">${{ item.price }}</span>
-                            {% else %}
-                            ${{ item.price }}
-                            {% endif %}
-                        </p>
-                        <a href="{{ item.get_absolute_url }}" class="btn btn-premium btn-block">View Details</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        {% else %}
-            <div class="col-12 text-center py-5 glass-panel">
-                <i class="fa fa-heart-o text-muted mb-3" style="font-size: 4rem;"></i>
-                <h4 class="text-muted">Your wishlist is empty.</h4>
-                <a href="{% url 'core:shop' %}" class="btn btn-premium mt-3">Discover Products</a>
-            </div>
-        {% endif %}
-    </div>
-</div>
+<!-- Title Page -->
+<section class="bg-title-page p-t-100 p-b-100 flex-col-c-m" 
+         style="background: linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(75, 85, 99, 0.9)), url('{% static 'images/heading-pages-02.jpg' %}') no-repeat center center; background-size: cover; position: relative;">
+	<h2 class="l-text2 t-center text-white" style="font-weight: 800; font-size: 3.5rem; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+		MY WISHLIST
+	</h2>
+	<p class="m-text13 t-center text-white mt-2" style="font-size: 1.2rem; font-weight: 500;">
+		Your Favorite Curated Items
+	</p>
+</section>
+
+<!-- Content page -->
+<section class="bgwhite p-t-55 p-b-65">
+	<div class="container">
+		<div class="row">
+			{% if wishlist.items.all %}
+				{% for item in wishlist.items.all %}
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+					<!-- Block2 Premium -->
+					<div class="product-card">
+						<div class="img-wrapper block2-labelnew">
+							<a href="{{item.get_absolute_url}}">
+							<img src="{{ item.image.url }}" alt="IMG-PRODUCT" style="height: 360px; object-fit: cover;">
+							</a>
+
+							<div class="block2-overlay trans-0-4">
+								<!-- Link covering the whole overlay -->
+								<a href="{{item.get_absolute_url}}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></a>
+
+								<!-- Remove from wishlist -->
+								<a href="{% url 'core:remove-from-wishlist' item.slug %}" class="block2-btn-addwishlist hov-pointer trans-0-4" style="z-index: 2;" title="Remove from wishlist">
+									<i class="fa fa-times" style="font-size: 24px; color: #fff;" aria-hidden="true"></i>
+								</a>
+
+								<div class="block2-btn-addcart w-size1 trans-0-4" style="z-index: 2;">
+									<!-- Button -->
+									<a href="{% url 'core:add-to-cart' item.slug %}" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" style="color: white;">
+										Add to Cart
+									</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="block2-txt p-t-20 p-b-20" style="background: #fff; padding: 15px 10px; text-align: center;">
+							<a href="{{item.get_absolute_url}}" class="block2-name dis-block p-b-5" style="color: #333; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase;">
+								{{item.title}}
+							</a>
+
+							{% if item.discount_price %}
+							<span class="block2-oldprice m-text7 p-r-5" style="color: #999; text-decoration: line-through; font-size: 0.9rem;">
+								${{ item.price }}
+							</span>
+
+							<span class="block2-newprice m-text8 p-r-5" style="color: #e65540; font-weight: 700; font-size: 1.1rem;">
+								${{ item.discount_price }}
+							</span>
+							{% else %}
+							<span class="block2-price m-text6 p-r-5" style="color: #666; font-weight: 500; font-size: 1.1rem;">
+								${{item.price}}
+							</span>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			{% else %}
+				<div class="col-12 text-center py-5" style="border: 1px dashed #ccc; border-radius: 12px; background-color: #fafafa; max-width: 600px; margin: 0 auto;">
+					<i class="fa fa-heart-o text-muted mb-3" style="font-size: 3rem; opacity: 0.5;"></i>
+					<h4 class="text-muted mb-4" style="font-weight: 500;">Your wishlist is empty.</h4>
+					<a href="{% url 'core:shop' %}" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4 mx-auto" style="color: white; width: 200px; height: 50px;">Discover Products</a>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</section>
 {% endblock content %}

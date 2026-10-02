@@ -1,0 +1,8 @@
+.submit-row .btn {
+    white-space: normal !important;
+    word-wrap: break-word;
+    height: auto !important;
+    padding: 8px 12px !important;
+    min-height: 38px;
+    line-height: 1.2 !important;
+}

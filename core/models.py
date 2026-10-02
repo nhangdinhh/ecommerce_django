@@ -147,7 +147,7 @@ class Order(models.Model):
             total += order_item.get_final_price()
         if self.coupon:
             total -= self.coupon.amount
-        return total
+        return max(0, total)
 
 
 # models.py
