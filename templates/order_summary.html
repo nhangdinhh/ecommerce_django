@@ -57,7 +57,7 @@
 					<td class="p-t-20 p-b-20 t-center s-text8 text-dark">
 						{% if order_item.item.discount_price %}
 							${{ order_item.get_total_discount_item_price }}
-							<div class="s-text8 m-t-5" style="color: #e65540; font-size: 0.8rem;">(Save ${{ order_item.get_amount_saved }})</div>
+							<div class="s-text8 m-t-5" style="color: #e65540; font-size: 0.8rem;">(Save ${{ order_item.get_amount_saved|floatformat:2 }})</div>
 						{% else %}
 							${{ order_item.get_total_item_price }}
 						{% endif %}
