@@ -35,3 +35,4 @@ cryptography
 stripe
 Pillow
 crispy-bootstrap4
+django-jazzmin
