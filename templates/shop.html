@@ -3,227 +3,247 @@
 {% load category_template_tags %}
 {% block content %}
 <style type="text/css">
-	.selection-2{
-	display: block;
-    width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da !important;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	.selection-2 {
+		display: block;
+		width: 100%;
+		height: calc(1.5em + .75rem + 2px);
+		padding: .375rem .75rem;
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.5;
+		color: #495057;
+		background-color: #fff;
+		background-clip: padding-box;
+		border: 1px solid #ced4da !important;
+		border-radius: .25rem;
+		transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	}
 </style>
 
-	<!-- Title Page -->
-	<section class="bg-title-page p-t-100 p-b-100 flex-col-c-m" 
-         style="background: linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(75, 85, 99, 0.9)), url('{% static 'images/heading-pages-02.jpg' %}') no-repeat center center; background-size: cover; position: relative;">
+<!-- Title Page -->
+<section class="bg-title-page p-t-100 p-b-100 flex-col-c-m"
+	style="background: linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(75, 85, 99, 0.9)), url('{% static 'images/heading-pages-02.jpg' %}') no-repeat center center; background-size: cover; position: relative;">
 
-		<h2 class="l-text2 t-center text-white" style="font-weight: 800; font-size: 3.5rem; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-			SHOP
-		</h2>
-		<p class="m-text13 t-center text-white mt-2" style="font-size: 1.2rem; font-weight: 500;">
-			Discover Our Premium Collection
-		</p>
-	</section>
+	<h2 class="l-text2 t-center text-white"
+		style="font-weight: 800; font-size: 3.5rem; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+		SHOP
+	</h2>
+	<p class="m-text13 t-center text-white mt-2" style="font-size: 1.2rem; font-weight: 500;">
+		Discover Our Premium Collection
+	</p>
+</section>
 
 
-	<!-- Content page -->
-	<section class="bgwhite p-t-55 p-b-65">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
-					<div class="leftbar p-r-20 p-r-0-sm">
-						<!--  -->
-						<h4 class="m-text14 p-b-7">
-							Categories
-						</h4>
+<!-- Content page -->
+<section class="bgwhite p-t-55 p-b-65">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+				<div class="leftbar p-r-20 p-r-0-sm">
+					<!--  -->
+					<h4 class="m-text14 p-b-7">
+						Categories
+					</h4>
 
-						<ul class="p-b-54">
-							<li class="p-t-4">
-								<a href="/shop" class="s-text13 active1">
-									All
-								</a>
+					<ul class="p-b-54">
+						<li class="p-t-4">
+							<a href="/shop" class="s-text13 active1">
+								All
+							</a>
+						</li>
+
+						{% categories_li_a %}
+
+					</ul>
+
+
+					<!-- Advanced Filters -->
+					<h4 class="m-text14 p-b-7 p-t-30"
+						style="border-top: 1px solid #e6e6e6; margin-top: 30px; padding-top: 30px;">
+						Advanced Filters
+					</h4>
+
+					<div class="filter-price p-t-22 p-b-20 bo3">
+						<div class="m-text15 p-b-17">
+							Price Range
+						</div>
+
+						<div class="wra-filter-bar">
+							<div id="filter-bar"></div>
+						</div>
+
+						<div class="flex-sb-m flex-w p-t-16">
+							<div class="w-size11">
+								<!-- Button -->
+								<button class="flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4">
+									Filter
+								</button>
+							</div>
+
+							<div class="s-text3 p-t-10 p-b-10">
+								Range: $<span id="value-lower">0</span> - $<span id="value-upper">200</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="filter-color p-t-22 p-b-20 bo3">
+						<div class="m-text15 p-b-12">
+							Color
+						</div>
+
+						<ul class="flex-w">
+							<li class="m-r-10">
+								<input class="checkbox-color-filter" id="color-filter1" type="checkbox"
+									name="color-filter1">
+								<label class="color-filter color-filter1" for="color-filter1"></label>
 							</li>
 
-							{% categories_li_a %}
+							<li class="m-r-10">
+								<input class="checkbox-color-filter" id="color-filter2" type="checkbox"
+									name="color-filter2">
+								<label class="color-filter color-filter2" for="color-filter2"></label>
+							</li>
 
+							<li class="m-r-10">
+								<input class="checkbox-color-filter" id="color-filter3" type="checkbox"
+									name="color-filter3">
+								<label class="color-filter color-filter3" for="color-filter3"></label>
+							</li>
+
+							<li class="m-r-10">
+								<input class="checkbox-color-filter" id="color-filter4" type="checkbox"
+									name="color-filter4">
+								<label class="color-filter color-filter4" for="color-filter4"></label>
+							</li>
+
+							<li class="m-r-10">
+								<input class="checkbox-color-filter" id="color-filter5" type="checkbox"
+									name="color-filter5">
+								<label class="color-filter color-filter5" for="color-filter5"></label>
+							</li>
+
+							<li class="m-r-10">
+								<input class="checkbox-color-filter" id="color-filter6" type="checkbox"
+									name="color-filter6">
+								<label class="color-filter color-filter6" for="color-filter6"></label>
+							</li>
+
+							<li class="m-r-10">
+								<input class="checkbox-color-filter" id="color-filter7" type="checkbox"
+									name="color-filter7">
+								<label class="color-filter color-filter7" for="color-filter7"></label>
+							</li>
 						</ul>
+					</div>
 
+				</div>
+			</div>
 
-						<!-- Advanced Filters -->
-						<h4 class="m-text14 p-b-7 p-t-30" style="border-top: 1px solid #e6e6e6; margin-top: 30px; padding-top: 30px;">
-							Advanced Filters
-						</h4>
+			<div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+				<!--  -->
+				<div class="flex-sb-m flex-w p-b-35">
+					<div class="flex-w">
 
-						<div class="filter-price p-t-22 p-b-20 bo3">
-							<div class="m-text15 p-b-17">
-								Price Range
-							</div>
-
-							<div class="wra-filter-bar">
-								<div id="filter-bar"></div>
-							</div>
-
-							<div class="flex-sb-m flex-w p-t-16">
-								<div class="w-size11">
-									<!-- Button -->
-									<button class="flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4">
-										Filter
-									</button>
-								</div>
-
-								<div class="s-text3 p-t-10 p-b-10">
-									Range: $<span id="value-lower">0</span> - $<span id="value-upper">200</span>
-								</div>
-							</div>
+						<div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
+							<select class="selection-2" name="sorting">
+								<option>Default Sorting</option>
+								<option>Popularity</option>
+								<option>Price: low to high</option>
+								<option>Price: high to low</option>
+							</select>
 						</div>
 
-						<div class="filter-color p-t-22 p-b-20 bo3">
-							<div class="m-text15 p-b-12">
-								Color
-							</div>
+						<div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
+							<select class="selection-2" name="sorting">
+								<option>Price</option>
+								<option>$0.00 - $50.00</option>
+								<option>$50.00 - $100.00</option>
+								<option>$100.00 - $150.00</option>
+								<option>$150.00 - $200.00</option>
+								<option>$200.00+</option>
 
-							<ul class="flex-w">
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter1" type="checkbox" name="color-filter1">
-									<label class="color-filter color-filter1" for="color-filter1"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter2" type="checkbox" name="color-filter2">
-									<label class="color-filter color-filter2" for="color-filter2"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter3" type="checkbox" name="color-filter3">
-									<label class="color-filter color-filter3" for="color-filter3"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter4" type="checkbox" name="color-filter4">
-									<label class="color-filter color-filter4" for="color-filter4"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter5" type="checkbox" name="color-filter5">
-									<label class="color-filter color-filter5" for="color-filter5"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter6" type="checkbox" name="color-filter6">
-									<label class="color-filter color-filter6" for="color-filter6"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter7" type="checkbox" name="color-filter7">
-									<label class="color-filter color-filter7" for="color-filter7"></label>
-								</li>
-							</ul>
+							</select>
 						</div>
+					</div>
 
+					<div class="search-product pos-relative bo4 of-hidden" style="width: 250px; height: 40px;">
+						<form method="GET" action="{% url 'core:shop' %}" style="height: 100%;">
+							<input class="s-text7 p-l-23 p-r-50" type="text" name="q" placeholder="Search Products..."
+								style="width: 100%; height: 100%; border: none; outline: none;">
+							<button type="submit" class="flex-c-m ab-r-m color2 color0-hov trans-0-4"
+								style="height: 100%; width: 40px; border: none; background: transparent;">
+								<i class="fs-12 fa fa-search" aria-hidden="true"></i>
+							</button>
+						</form>
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
-					<!--  -->
-					<div class="flex-sb-m flex-w p-b-35">
-						<div class="flex-w">
-						
-							<div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10" >
-								<select class="selection-2" name="sorting">
-									<option>Default Sorting</option>
-									<option>Popularity</option>
-									<option>Price: low to high</option>
-									<option>Price: high to low</option>
-								</select>
-							</div>
+				<!-- Product -->
+				<div class="row">
+					{% for item in object_list %}
+					<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+						<!-- Block2 Premium -->
+						<div class="product-card">
+							<div class="img-wrapper block2-labelnew">
+								<a href="{{item.get_absolute_url}}">
+									<img src="{{ item.image.url }}" alt="IMG-PRODUCT"
+										style="height: 360px; object-fit: cover;">
+								</a>
 
-							<div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-								<select class="selection-2" name="sorting">
-									<option>Price</option>
-									<option>$0.00 - $50.00</option>
-									<option>$50.00 - $100.00</option>
-									<option>$100.00 - $150.00</option>
-									<option>$150.00 - $200.00</option>
-									<option>$200.00+</option>
+								<div class="block2-overlay trans-0-4">
+									<!-- Link covering the whole overlay -->
+									<a href="{{item.get_absolute_url}}"
+										style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></a>
 
-								</select>
-							</div>
-						</div>
-
-						<div class="search-product pos-relative bo4 of-hidden" style="width: 250px; height: 40px;">
-							<form method="GET" action="{% url 'core:shop' %}" style="height: 100%;">
-								<input class="s-text7 p-l-23 p-r-50" type="text" name="q" placeholder="Search Products..." style="width: 100%; height: 100%; border: none; outline: none;">
-								<button type="submit" class="flex-c-m ab-r-m color2 color0-hov trans-0-4" style="height: 100%; width: 40px; border: none; background: transparent;">
-									<i class="fs-12 fa fa-search" aria-hidden="true"></i>
-								</button>
-							</form>
-						</div>
-					</div>
-
-					<!-- Product -->
-					<div class="row">
-						{% for item in object_list %}
-						<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-							<!-- Block2 Premium -->
-							<div class="product-card">
-								<div class="img-wrapper block2-labelnew">
-									<a href="{{item.get_absolute_url}}">
-									<img src="{{ item.image.url }}" alt="IMG-PRODUCT" 
-								style="height: 360px; object-fit: cover;">
+									<a href="{% url 'core:add-to-wishlist' item.slug %}"
+										class="block2-btn-addwishlist hov-pointer trans-0-4" style="z-index: 2;">
+										<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+										<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
 									</a>
 
-									<div class="block2-overlay trans-0-4">
-										<!-- Link covering the whole overlay -->
-										<a href="{{item.get_absolute_url}}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></a>
-
-										<a href="{% url 'core:add-to-wishlist' item.slug %}" class="block2-btn-addwishlist hov-pointer trans-0-4" style="z-index: 2;">
-											<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-											<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+									<div class="block2-btn-addcart w-size1 trans-0-4" style="z-index: 2;">
+										<!-- Button -->
+										<a href="{% url 'core:add-to-cart' item.slug %}"
+											class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4"
+											style="color: white;">
+											Add to Cart
 										</a>
-
-										<div class="block2-btn-addcart w-size1 trans-0-4" style="z-index: 2;">
-											<!-- Button -->
-											<a href="{% url 'core:add-to-cart' item.slug %}" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" style="color: white;">
-												Add to Cart
-											</a>
-										</div>
 									</div>
 								</div>
+							</div>
 
-								<div class="block2-txt p-t-20 p-b-20" style="background: #fff; padding: 15px 10px; text-align: center;">
-									<a href="{{item.get_absolute_url}}" class="block2-name dis-block p-b-5" style="color: #333; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase;">
-										{{item.title}}
-									</a>
+							<div class="block2-txt p-t-20 p-b-20"
+								style="background: #fff; padding: 15px 10px; text-align: center;">
+								<a href="{{item.get_absolute_url}}" class="block2-name dis-block p-b-5"
+									style="color: #333; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase;">
+									{{item.title}}
+								</a>
 
-									{% if item.discount_price %}
-									<span class="block2-oldprice m-text7 p-r-5" style="color: #999; text-decoration: line-through; font-size: 0.9rem;">
-										${{ item.price }}
-									</span>
+								{% if item.discount_price %}
+								<span class="block2-oldprice m-text7 p-r-5"
+									style="color: #999; text-decoration: line-through; font-size: 0.9rem;">
+									${{ item.price }}
+								</span>
 
-									<span class="block2-newprice m-text8 p-r-5" style="color: #e65540; font-weight: 700; font-size: 1.1rem;">
-										${{ item.discount_price }}
-									</span>
-									{% else %}
-									<span class="block2-price m-text6 p-r-5" style="color: #666; font-weight: 500; font-size: 1.1rem;">
-										${{item.price}}
-									</span>
-									{% endif %}
-								</div>
+								<span class="block2-newprice m-text8 p-r-5"
+									style="color: #e65540; font-weight: 700; font-size: 1.1rem;">
+									${{ item.discount_price }}
+								</span>
+								{% else %}
+								<span class="block2-price m-text6 p-r-5"
+									style="color: #666; font-weight: 500; font-size: 1.1rem;">
+									${{item.price}}
+								</span>
+								{% endif %}
 							</div>
 						</div>
-						{% endfor %}
+					</div>
+					{% endfor %}
 
-						
 
-						
-				
+
+
+
 				</div>
 				<!-- ---- row end ------- -->
 
@@ -237,20 +257,21 @@
 						<span class="sr-only">Previous</span>
 					</a>
 					{% endif %}
-					<a href="?page={{ page_obj.number }}" class="item-pagination flex-c-m trans-0-4 active-pagination">{{page_obj.number}}</a>
-					
-					
+					<a href="?page={{ page_obj.number }}"
+						class="item-pagination flex-c-m trans-0-4 active-pagination">{{page_obj.number}}</a>
+
+
 					{% if page_obj.has_next %}
 					<a class="page-link" href="?page={{ page_obj.next_page_number}}" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-							<span class="sr-only">Next</span>
-						</a>
-						{% endif %}
+						<span aria-hidden="true">&raquo;</span>
+						<span class="sr-only">Next</span>
+					</a>
+					{% endif %}
 				</div>
 				{% endif %}
 			</div>
 		</div>
-	</section>
+</section>
 
 
-		{% endblock content %}
+{% endblock content %}

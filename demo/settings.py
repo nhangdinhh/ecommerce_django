@@ -305,22 +305,22 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 JAZZMIN_SETTINGS = { 'site_title': 'Nhang Shop Admin', 'site_header': 'Nhang Shop', 'site_brand': 'Nhang Shop', 'welcome_sign': 'Welcome to Nhang Shop Admin', 'copyright': 'Nhang Shop', 'show_ui_builder': True, 'custom_css': 'css/admin_tweaks.css' }
 
 JAZZMIN_UI_TWEAKS = {
-    "navbar": "navbar-dark",
-    "theme": "pulse",
-    "sidebar": "sidebar-dark-danger",
+    "navbar": "navbar-success navbar-dark",
+    "theme": "minty",
+    "sidebar": "sidebar-light-success",
     "sidebar_nav_child_indent": True,
     "sidebar_nav_compact_style": True,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme_color": "danger",
-    "dark_mode_theme": "darkly",
+    "theme_color": "success",
+    "dark_mode_theme": None,
     "button_classes": {
-        "primary": "btn-danger",
-        "secondary": "btn-outline-light",
-        "info": "btn-outline-light",
+        "primary": "btn-success",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-outline-info",
         "warning": "btn-warning",
         "danger": "btn-danger",
-        "success": "btn-light"
+        "success": "btn-success"
     }
 }
 
