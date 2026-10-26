@@ -303,11 +303,32 @@ STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-JAZZMIN_SETTINGS = { 'site_title': 'Nhang Shop Admin', 'site_header': 'Nhang Shop', 'site_brand': 'Nhang Shop', 'welcome_sign': 'Welcome to Nhang Shop Admin', 'copyright': 'Nhang Shop', 'show_ui_builder': True, 'custom_css': 'css/admin_tweaks.css' }
+JAZZMIN_SETTINGS = {
+    'site_title': 'Nhang Shop Admin',
+    'site_header': 'Nhang Shop',
+    'site_brand': 'Nhang Shop',
+    'welcome_sign': 'Welcome to Nhang Shop Admin',
+    'copyright': 'Nhang Shop',
+    'show_ui_builder': False,
+    'custom_css': 'css/nhang_admin.css',
+    'icons': {
+        'auth.Group': 'fas fa-users',
+        'auth.User': 'fas fa-user',
+        'core.Item': 'fas fa-box-open',
+        'core.Category': 'fas fa-layer-group',
+        'core.Order': 'fas fa-shopping-bag',
+        'core.OrderItem': 'fas fa-shopping-cart',
+        'core.Payment': 'fas fa-credit-card',
+        'core.Coupon': 'fas fa-ticket-alt',
+        'core.Refund': 'fas fa-undo',
+        'core.BillingAddress': 'fas fa-map-marker-alt',
+        'core.Slide': 'fas fa-images',
+    },
+}
 
 JAZZMIN_UI_TWEAKS = {
-    "navbar": "navbar-success navbar-dark",
-    "theme": "minty",
+    "navbar": "navbar-white navbar-light",
+    "theme": "default",
     "sidebar": "sidebar-light-success",
     "sidebar_nav_child_indent": True,
     "sidebar_nav_compact_style": True,

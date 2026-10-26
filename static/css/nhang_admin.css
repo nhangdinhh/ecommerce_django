@@ -1,0 +1,176 @@
+/* Nhang Shop admin: one stylesheet, loaded after Jazzmin's theme. */
+:root, [data-bs-theme="dark"] {
+    color-scheme: light;
+    --bs-body-bg: #f5f5f9;
+    --bs-body-color: #30323e;
+    --bs-emphasis-color: #30323e;
+    --bs-secondary-color: #707382;
+    --bs-tertiary-bg: #f1f1f7;
+    --bs-border-color: #e5e5ee;
+    --shop-bg: #f5f5f9;
+    --shop-surface: #ffffff;
+    --shop-ink: #30323e;
+    --shop-muted: #707382;
+    --shop-line: #e5e5ee;
+    --shop-accent: #6554c0;
+    --shop-accent-dark: #51419f;
+    --shop-soft: #f0edfb;
+}
+body, body.dark-mode {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    color: var(--shop-ink) !important;
+    background: var(--shop-bg) !important;
+    color-scheme: light;
+}
+body .content-wrapper, body.dark-mode .content-wrapper {
+    background: var(--shop-bg) !important;
+    color: var(--shop-ink) !important;
+}
+a { color: var(--shop-accent); }
+a:hover { color: var(--shop-accent-dark); }
+body .main-header.navbar {
+    background: var(--shop-surface) !important;
+    border-bottom: 1px solid var(--shop-line);
+    min-height: 64px;
+}
+body .main-header .nav-link { color: var(--shop-muted) !important; }
+body .main-sidebar {
+    background: #242630 !important;
+    box-shadow: 3px 0 18px #20212b18 !important;
+}
+body .main-sidebar .brand-link {
+    background: transparent !important;
+    color: #fff !important;
+    border-bottom: 1px solid #ffffff18 !important;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+.brand-link .brand-text { font-weight: 650 !important; letter-spacing: -.5px; }
+body .main-sidebar .user-panel { border-bottom: 1px solid #ffffff18; }
+body .main-sidebar .user-panel a { color: #e4e4ec !important; }
+.nav-sidebar { padding: 4px; }
+body .main-sidebar .nav-sidebar .nav-header {
+    color: #a2a4b5 !important;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    padding: 20px 12px 8px;
+    white-space: normal;
+}
+body .main-sidebar .nav-sidebar .nav-link {
+    color: #d7d8e2 !important;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+}
+body .main-sidebar .nav-sidebar .nav-link:hover { background: #ffffff10 !important; }
+body .main-sidebar .nav-sidebar .nav-link.active {
+    background: #ece8fc !important;
+    color: #51419f !important;
+    box-shadow: none !important;
+    font-weight: 600;
+}
+.nav-sidebar .nav-icon { font-size: 15px !important; }
+.content-header { padding: 28px 24px 20px; }
+.content-header h1 { color: var(--shop-ink) !important; font-size: 27px; font-weight: 700; letter-spacing: -.7px; }
+.content-wrapper > .content { padding: 0 24px 24px; }
+body .breadcrumb { background: transparent !important; color: var(--shop-muted) !important; font-size: 13px; }
+body .breadcrumb a { color: var(--shop-accent) !important; }
+body .card, body.dark-mode .card, body #recent-actions-module {
+    background: var(--shop-surface) !important;
+    color: var(--shop-ink) !important;
+    border: 1px solid var(--shop-line);
+    border-radius: 12px;
+    box-shadow: 0 4px 18px #28243908 !important;
+}
+body .card-header {
+    background: transparent !important;
+    border-bottom: 1px solid var(--shop-line);
+    padding: 18px 20px;
+}
+.card-header h5, .card-title { color: var(--shop-ink); font-size: 16px; font-weight: 650; }
+.card-body { padding: 20px; }
+.dashboard .card-body { padding: 6px 16px 12px; }
+body .table {
+    --bs-table-bg: #fff;
+    --bs-table-color: #30323e;
+    --bs-table-striped-bg: #fafafd;
+    --bs-table-striped-color: #30323e;
+    --bs-table-hover-bg: #f5f3fc;
+    --bs-table-hover-color: #30323e;
+    background: var(--shop-surface) !important;
+    color: var(--shop-ink) !important;
+}
+body .table td, body .table th { border-color: var(--shop-line) !important; vertical-align: middle; padding: 12px; }
+body .table thead th { background: #f1f1f7 !important; color: #626575 !important; font-size: 12px; font-weight: 650; }
+body .table tbody tr { background: var(--shop-surface) !important; color: var(--shop-ink) !important; }
+body .table-striped tbody tr:nth-of-type(odd) { background: #fafafd !important; }
+body .table tbody tr:hover { background: #f5f3fc !important; }
+body .table a:not(.btn) { color: var(--shop-accent) !important; font-weight: 500; }
+.dashboard .table { margin-bottom: 0; }
+.dashboard .table tr:first-child td { border-top: 0; }
+.dashboard .table td:first-child { padding-left: 4px; }
+.dashboard .table td:last-child { text-align: right; }
+.dashboard .btn-group { gap: 6px; }
+.dashboard .btn-group .btn { border-radius: 6px !important; margin: 0 !important; }
+.btn { border-radius: 7px; font-weight: 600; font-size: 13px; padding: 8px 14px; }
+.btn-sm { font-size: 12px; padding: 6px 10px; }
+body .btn-primary, body .btn-success, body .badge-success, body .badge-primary {
+    background: var(--shop-accent) !important;
+    border-color: var(--shop-accent) !important;
+    color: #fff !important;
+}
+body .btn-primary:hover, body .btn-success:hover { background: var(--shop-accent-dark) !important; }
+body .btn-outline-info, body .btn-outline-success {
+    color: var(--shop-accent) !important;
+    border-color: #d6cfef !important;
+    background: var(--shop-soft) !important;
+}
+body .btn-outline-info:hover, body .btn-outline-success:hover { background: #e4def8 !important; }
+body .form-control, body select, body .select2-container--default .select2-selection--single,
+body .select2-container--default .select2-selection--multiple {
+    background: #fff !important;
+    color: var(--shop-ink) !important;
+    border: 1px solid #d6d7e2 !important;
+    border-radius: 7px;
+}
+body .form-control:focus { border-color: var(--shop-accent) !important; box-shadow: 0 0 0 3px #6554c018 !important; }
+body .select2-dropdown, body .dropdown-menu, body .modal-content {
+    background: #fff !important;
+    color: var(--shop-ink) !important;
+    border-color: var(--shop-line);
+}
+body .dropdown-item { color: var(--shop-ink) !important; }
+body .dropdown-item:hover { background: var(--shop-soft) !important; }
+body .help, body .help-block, body .text-muted { color: var(--shop-muted) !important; }
+body .nav-tabs .nav-link.active { background: #fff !important; color: var(--shop-accent) !important; border-bottom-color: var(--shop-accent); }
+body .page-link { background: #fff; color: var(--shop-accent); border-color: var(--shop-line); }
+body .page-item.active .page-link { background: var(--shop-accent); border-color: var(--shop-accent); color: #fff; }
+#recent-actions-module { padding: 20px; }
+#recent-actions-module h4 { font-size: 16px; font-weight: 650; color: var(--shop-ink); }
+#recent-actions-module > p { color: var(--shop-muted); padding: 18px 0; }
+body .timeline .timeline-item { background: #f7f6fb !important; color: var(--shop-ink) !important; box-shadow: none !important; border-radius: 8px; }
+body .timeline .timeline-header { color: var(--shop-ink) !important; border-color: var(--shop-line) !important; }
+body .timeline .timeline-header a { color: var(--shop-accent) !important; }
+body .main-footer { background: #fff !important; color: var(--shop-muted) !important; border-top: 1px solid var(--shop-line); font-size: 12px; }
+.submit-row .btn { white-space: normal; overflow-wrap: anywhere; height: auto; min-height: 38px; margin-bottom: 8px; }
+body.login-page { background: var(--shop-bg) !important; }
+.login-box .card { border-top: 4px solid var(--shop-accent); }
+body .login-logo a { color: var(--shop-ink) !important; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 3px solid #8070d5 !important;
+    outline-offset: 3px;
+}
+@media (min-width: 768px) and (max-width: 1200px) {
+    .dashboard #content > .col-lg-9, .dashboard #content > .col-lg-3 { flex: 0 0 100%; max-width: 100%; }
+}
+@media (max-width: 767px) {
+    .content-header { padding: 20px 12px 14px; }
+    .content-wrapper > .content { padding: 0 8px 16px; }
+    .content-header h1 { font-size: 24px; }
+    .card-body { padding: 12px; }
+    .dashboard .table td { padding: 10px 4px; }
+    .dashboard .btn-group { flex-wrap: wrap; justify-content: flex-end; }
+}
