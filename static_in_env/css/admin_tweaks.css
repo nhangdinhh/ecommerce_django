@@ -1,0 +1,134 @@
+.submit-row .btn {
+    white-space: normal !important;
+    word-wrap: break-word;
+    height: auto !important;
+    padding: 8px 12px !important;
+    min-height: 38px;
+    line-height: 1.2 !important;
+}
+
+/* ========================================================
+   Admin Theme: Nền Trắng Toàn Diện + Điểm Nhấn Xanh Lá
+   (Ghi đè triệt để cả khi giao diện bật Dark Mode)
+   ======================================================== */
+
+/* 1. Nền body, content, sidebar, footer màu trắng */
+body,
+body.dark-mode,
+.dark-mode,
+.dark-mode .content-wrapper,
+.content-wrapper,
+.main-footer,
+.dark-mode .main-footer,
+.login-page,
+.register-page,
+.main-sidebar,
+.dark-mode .main-sidebar,
+.content {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+/* 2. Top Header / Navbar màu xanh lá */
+.main-header.navbar,
+.dark-mode .main-header.navbar {
+    background-color: #28a745 !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid #218838 !important;
+}
+.main-header.navbar .nav-link,
+.dark-mode .main-header.navbar .nav-link {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* 3. Logo / Brand Link màu xanh đậm */
+.main-sidebar .brand-link,
+.dark-mode .main-sidebar .brand-link {
+    background-color: #218838 !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid #1e7e34 !important;
+}
+
+/* 4. Menu bên trái (Sidebar) nền trắng, chữ đen, menu chọn xanh lá */
+.sidebar-light-success .nav-sidebar > .nav-item > .nav-link,
+.sidebar-dark-success .nav-sidebar > .nav-item > .nav-link,
+.dark-mode .nav-sidebar > .nav-item > .nav-link {
+    color: #333333 !important;
+}
+
+.sidebar-light-success .nav-sidebar > .nav-item > .nav-link.active,
+.sidebar-dark-success .nav-sidebar > .nav-item > .nav-link.active,
+.dark-mode .nav-sidebar > .nav-item > .nav-link.active,
+.nav-pills .nav-link.active {
+    background-color: #28a745 !important;
+    color: #ffffff !important;
+}
+
+/* 5. Khối Card, Bảng (Table) & Danh sách nền trắng chữ đen */
+.dark-mode .card,
+.card {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.1) !important;
+}
+
+.dark-mode .table,
+.table,
+.dark-mode .table-striped tbody tr:nth-of-type(odd),
+.dark-mode .table-hover tbody tr:hover {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+.dark-mode .table td,
+.dark-mode .table th,
+.table td,
+.table th {
+    color: #212529 !important;
+    border-color: #e9ecef !important;
+}
+
+.dark-mode .table thead th,
+.table thead th {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+    border-bottom: 2px solid #dee2e6 !important;
+}
+
+/* 6. Form input, ô tìm kiếm, select nền trắng */
+.dark-mode .form-control,
+.form-control,
+.dark-mode select,
+select {
+    background-color: #ffffff !important;
+    color: #495057 !important;
+    border: 1px solid #ced4da !important;
+}
+
+/* 7. Tiêu đề và liên kết */
+.content-header h1,
+.dark-mode .content-header h1,
+.breadcrumb,
+.dark-mode .breadcrumb,
+.dark-mode .breadcrumb a {
+    color: #212529 !important;
+}
+
+/* 8. Nút bấm màu xanh lá */
+.btn-primary, .btn-success,
+.dark-mode .btn-primary, .dark-mode .btn-success {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+    color: #ffffff !important;
+}
+.btn-primary:hover, .btn-success:hover,
+.dark-mode .btn-primary:hover, .dark-mode .btn-success:hover {
+    background-color: #218838 !important;
+    border-color: #1e7e34 !important;
+    color: #ffffff !important;
+}
+
+.badge-primary, .badge-success {
+    background-color: #28a745 !important;
+    color: #ffffff !important;
+}
