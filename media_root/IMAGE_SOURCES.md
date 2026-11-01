@@ -20,5 +20,6 @@ These locally stored photos show named Korean actors, singers, or models wearing
 | `kfashion/shoes_korean_loafers.jpg` | Song Hye-kyo wearing loafers | [FitFlop: Song Hye-kyo campaign](https://fitflop.co.th/pages/fitflop-announces-exclusive-partnership-with-renowned-korean-actress-fitflop-x-song-hye-kyo) |
 | `kfashion/watch_korean_leather_strap.jpg` | Suzy wearing a red leather-strap watch | [Sohu: Suzy and Longines](https://www.sohu.com/a/548376765_825604) |
 | `kfashion/watch_korean_chronograph.jpg` | Han So-hee wearing an Omega watch | [Tatler Asia: Han So-hee and Omega](https://www.tatlerasia.com/style/watches/han-so-hee-joins-omega-as-its-new-brand-ambassador) |
+| `korean_celebrity_catalog/watches/watches_015.jpg` | Kim Woo-bin wearing a watch in a GQ Korea editorial | [Nate: Kim Woo-bin editorial](https://news.nate.com/view/20240607n13077) |
 
 These are campaign/editorial images, not confirmation that each generic Nhang Shop listing is the exact branded item shown. Check each source's reuse terms before publishing the store publicly or using the images commercially.
