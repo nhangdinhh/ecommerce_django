@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block head_title %}Order #{{ order.ref_code }} | Nhang Shop{% endblock %}
+{% block content %}
+{% include "includes/page_hero.html" with title="Your order" eyebrow="ORDER TRACKING" description="Follow each step from confirmation to delivery." hero_image="kfashion/shoes_korean_running.jpg" hero_alt="IU wearing New Balance sneakers" compact=True %}
+<main class="order-track-page">
+  <section class="order-track-card">
+    <header class="order-track-heading">
+      <div><p class="site-eyebrow">ORDER REFERENCE</p><h1>#{{ order.ref_code }}</h1><p>Placed {{ order.ordered_date|date:"M j, Y · H:i" }}</p></div>
+      <span class="order-track-badge">{{ order.get_status_display }}</span>
+    </header>
+    <ol class="order-track-steps">
+      <li class="{% if order.status != 'pending' %}is-done{% endif %}"><span>01</span><strong>Order placed</strong></li>
+      <li class="{% if order.status == 'confirmed' or order.status == 'packed' or order.status == 'shipped' or order.status == 'delivery_failed' or order.status == 'returning' or order.status == 'returned' or order.status == 'delivered' %}is-done{% endif %}"><span>02</span><strong>Confirmed</strong></li>
+      <li class="{% if order.status == 'packed' or order.status == 'shipped' or order.status == 'delivery_failed' or order.status == 'returning' or order.status == 'returned' or order.status == 'delivered' %}is-done{% endif %}"><span>03</span><strong>Packed</strong></li>
+      <li class="{% if order.status == 'shipped' or order.status == 'delivery_failed' or order.status == 'returning' or order.status == 'returned' or order.status == 'delivered' %}is-done{% endif %}"><span>04</span><strong>Carrier update</strong></li>
+      <li class="{% if order.status == 'delivered' or order.status == 'returned' %}is-done{% endif %}"><span>05</span><strong>{% if order.status == 'returning' or order.status == 'returned' %}Returned to shop{% else %}Delivery outcome{% endif %}</strong></li>
+    </ol>
+    {% if order.status == 'cancelled' or order.status == 'refund_requested' or order.status == 'refunded' or order.status == 'delivery_failed' or order.status == 'returning' or order.status == 'returned' %}<p class="order-track-notice">{{ order.get_status_display }}{% if order.status == 'delivery_failed' %} — the shop is coordinating another attempt or return with the carrier.{% elif order.status == 'returning' %} — inventory will be updated after the parcel arrives back at the shop.{% endif %}</p>{% endif %}
+    {% if order.status == 'shipped' or order.status == 'delivery_failed' or order.status == 'returning' %}{% if order.tracking_number %}<div class="order-track-shipment"><strong>{{ order.shipping_carrier|default:"Carrier" }}</strong><span>Tracking number: {{ order.tracking_number }}</span></div>{% endif %}{% endif %}
+    <div class="order-track-columns">
+      <section><h2>Items</h2>{% for line in order.items.all %}<div class="order-track-item order-track-item--product"><span class="order-track-item__image"><img src="{{ line.item.image.url }}" alt="{{ line.item.title }}"></span><span class="order-track-item__copy">{{ line.quantity }} × {{ line.item.title }}{% if line.variant %} · {{ line.variant.size }} · {{ line.variant.color }}{% endif %}</span><strong>${{ line.get_final_price|floatformat:2 }}</strong></div>{% endfor %}<div class="order-track-item"><span>Items subtotal</span><strong>${{ order.get_items_subtotal|floatformat:2 }}</strong></div>{% if order.coupon %}<div class="order-track-item"><span>Discount · {{ order.coupon.code }}</span><strong>−${{ order.coupon.amount|floatformat:2 }}</strong></div>{% endif %}<div class="order-track-item"><span>Delivery fee</span><strong>{% if order.shipping_fee_confirmed %}${{ order.shipping_fee|floatformat:2 }}{% else %}To be confirmed{% endif %}</strong></div><div class="order-track-total"><span>{% if order.shipping_fee_confirmed %}Amount due on delivery{% else %}Items total before delivery fee{% endif %}</span><strong>${{ order.get_total|floatformat:2 }}</strong></div><p class="order-track-payment">Cash on delivery · {% if order.payment_status == 'paid' %}Collected{% else %}Pay when delivered{% endif %}</p>
+        {% if order.shipping_fee_confirmed and not order.shipping_fee_accepted %}{% if order.status == 'pending' or order.status == 'confirmed' or order.status == 'packed' %}<form method="post" class="order-track-accept-fee">{% csrf_token %}<input type="hidden" name="action" value="accept_shipping_fee"><p>Please accept the confirmed delivery fee and total before dispatch.</p><button class="site-primary-button" type="submit">Accept ${{ order.get_total|floatformat:2 }} total</button></form>{% endif %}{% elif order.shipping_fee_confirmed and order.shipping_fee_accepted %}<p class="order-track-payment">You accepted this delivery total.</p>{% endif %}
+      </section>
+      <section><h2>Delivery address</h2>{% if order.shipping_address %}<p>{{ order.shipping_address.recipient_name }}<br>{{ order.shipping_address.phone_number }}<br>{{ order.shipping_address.street_address }}</p>{% else %}<p>Address details unavailable.</p>{% endif %}</section>
+    </div>
+    <section class="order-track-history"><h2>Updates</h2>{% for entry in order.status_history.all %}<div><span>{{ entry.created_at|date:"M j, Y · H:i" }}</span><strong>{{ entry.get_status_display }}</strong>{% if entry.note %}<p>{{ entry.note }}</p>{% endif %}</div>{% empty %}<p>No updates yet.</p>{% endfor %}</section>
+    <footer class="order-track-actions">
+      {% if order.status == 'delivered' or order.status == 'cancelled' or order.status == 'returned' or order.status == 'refunded' %}<form method="post" action="{% url 'core:reorder-order' order.ref_code %}">{% csrf_token %}<button class="site-primary-button" type="submit">Buy these items again</button></form>{% endif %}
+      {% if order.status == 'pending' or order.status == 'confirmed' %}<form method="post">{% csrf_token %}<button class="site-secondary-button" name="action" value="cancel">Cancel order</button></form>{% endif %}
+      {% if order.status == 'shipped' %}<form method="post">{% csrf_token %}<button class="site-primary-button" name="action" value="received">Confirm received</button></form>{% endif %}
+      <a class="site-secondary-button" href="{% url 'core:profile' %}">Back to account</a>
+    </footer>
+  </section>
+</main>
+{% endblock content %}

@@ -12,3 +12,12 @@ media
 /.env
 /.vscode
 /.idea
+.local-demo/
+
+# Local application databases, exports, backups and generated image research files
+*.sqlite3
+*.sqlite3-*
+db.sqlite3*
+backups/
+.runtime/
+media_root/avatars/

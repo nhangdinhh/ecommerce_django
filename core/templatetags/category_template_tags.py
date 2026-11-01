@@ -1,4 +1,5 @@
 from django import template
+from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
 
 from core.models import Category
@@ -39,20 +40,34 @@ def categories_div():
     section banner
     :return:
     """
-    items = Category.objects.filter(is_active=True).order_by('title')
-    items_div = ""
-    item_div_list = ""
-    for i, j in enumerate(items):
-        if not i % 2:
-            items_div += """<div class="block1 hov-img-zoom pos-relative m-b-30"><img src="/media/{}" alt="IMG-BENNER"><div class="block1-wrapbtn w-size2"><a href="/category/{}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">{}</a></div></div>""".format(
-                j.image, j.slug, j.title)
-        else:
-            items_div_ = """<div class="block1 hov-img-zoom pos-relative m-b-30"><img src="/media/{}" alt="IMG-BENNER"><div class="block1-wrapbtn w-size2"><a href="/category/{}" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">{}</a></div></div>""".format(
-                j.image, j.slug, j.title)
-            item_div_list += """<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">""" + items_div + items_div_ + """</div>"""
-            items_div = ""
+    items = list(Category.objects.filter(is_active=True).order_by('title'))
+    columns = []
+    for start in range(0, len(items), 2):
+        cards = items[start:start + 2]
+        card_html = format_html_join(
+            '',
+            '<div class="block1 hov-img-zoom pos-relative m-b-30">{}'
+            '<div class="block1-wrapbtn w-size2"><a href="{}" '
+            'class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">{}</a></div></div>',
+            (
+                (
+                    format_html(
+                        '<img src="{}" alt="{}" loading="lazy">',
+                        category.image.url,
+                        category.title,
+                    ) if category.image else '',
+                    category.get_absolute_url(),
+                    category.title,
+                )
+                for category in cards
+            ),
+        )
+        columns.append(format_html(
+            '<div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">{}</div>',
+            card_html,
+        ))
 
-    return mark_safe(item_div_list)
+    return format_html_join('', '{}', ((column,) for column in columns))
 
 from core.models import Item
 @register.inclusion_tag('featured_sidebar.html')

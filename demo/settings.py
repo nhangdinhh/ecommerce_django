@@ -6,13 +6,13 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
 
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'true').strip().lower() in {'1', 'true', 'yes', 'on'}
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-local-development-key-change-before-deploy')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS', '*').split(',') if host.strip()]
 
 
 
@@ -60,7 +60,7 @@ INSTALLED_APPS = [
 
     # Local apps
 
-    'core'
+    'core.apps.CoreConfig'
 
 ]
 
@@ -73,6 +73,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
+
 
     'django.middleware.common.CommonMiddleware',
 
@@ -115,6 +116,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
 
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.shopping_cart',
 
             ],
 
@@ -130,17 +132,26 @@ WSGI_APPLICATION = 'demo.wsgi.application'
 
 
 
-DATABASES = {
-
-    "default": {
-
-        "ENGINE": "django.db.backends.sqlite3",
-
-        "NAME": os.path.join(BASE_DIR, 'db.sqlite3')
-
+if os.getenv('DB_ENGINE', 'sqlite').strip().lower() in {'postgres', 'postgresql'}:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('POSTGRES_DB', 'nhang_shop'),
+            'USER': os.getenv('POSTGRES_USER', 'nhang_shop'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
+            'HOST': os.getenv('POSTGRES_HOST', 'db'),
+            'PORT': os.getenv('POSTGRES_PORT', '5432'),
+            'CONN_MAX_AGE': 60,
+            'CONN_HEALTH_CHECKS': True,
+        }
     }
-
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.getenv('SQLITE_DB_NAME', os.path.join(BASE_DIR, 'db.sqlite3')),
+        }
+    }
 
 
 
@@ -211,7 +222,10 @@ if ENVIRONMENT == 'production':
 
     DEBUG = False
 
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    if not os.getenv('SECRET_KEY') or SECRET_KEY.startswith('django-insecure-local') or SECRET_KEY == 'replace-with-a-random-secret':
+        raise RuntimeError('SECRET_KEY must be set when ENVIRONMENT=production.')
+    if ALLOWED_HOSTS == ['*']:
+        raise RuntimeError('Set ALLOWED_HOSTS explicitly when ENVIRONMENT=production.')
 
     SESSION_COOKIE_SECURE = True
 
@@ -225,7 +239,7 @@ if ENVIRONMENT == 'production':
 
     SECURE_REDIRECT_EXEMPT = []
 
-    SECURE_SSL_REDIRECT = True
+    SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'true').strip().lower() in {'1', 'true', 'yes', 'on'}
 
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -295,13 +309,23 @@ STRIPE_PUBLIC_KEY = 'pk_test_lX3r6OMjOU2yzFsNSHq6belT00EY82kZmH'
 
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 
+EMAIL_BACKEND = os.getenv(
+    'EMAIL_BACKEND',
+    'django.core.mail.backends.console.EmailBackend' if DEBUG else 'django.core.mail.backends.smtp.EmailBackend',
+)
+EMAIL_HOST = os.getenv('EMAIL_HOST', '')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'true').strip().lower() in {'1', 'true', 'yes', 'on'}
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'Nhang Shop <no-reply@localhost>')
+SITE_URL = os.getenv('SITE_URL', 'http://127.0.0.1:8000')
+
 
 
 
 
 # ✅ Email backend for development
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 JAZZMIN_SETTINGS = {
     'site_title': 'Nhang Shop Admin',
@@ -315,14 +339,17 @@ JAZZMIN_SETTINGS = {
         'auth.Group': 'fas fa-users',
         'auth.User': 'fas fa-user',
         'core.Item': 'fas fa-box-open',
+        'core.ItemVariant': 'fas fa-tags',
         'core.Category': 'fas fa-layer-group',
         'core.Order': 'fas fa-shopping-bag',
-        'core.OrderItem': 'fas fa-shopping-cart',
         'core.Payment': 'fas fa-credit-card',
         'core.Coupon': 'fas fa-ticket-alt',
         'core.Refund': 'fas fa-undo',
-        'core.BillingAddress': 'fas fa-map-marker-alt',
         'core.Slide': 'fas fa-images',
+        'core.StockReceipt': 'fas fa-boxes',
+        'core.StockMovement': 'fas fa-exchange-alt',
+        'core.Supplier': 'fas fa-truck',
+        'core.Review': 'fas fa-star',
     },
 }
 

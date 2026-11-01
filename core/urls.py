@@ -17,7 +17,14 @@ from .views import (
     wishlist_view,
     add_to_wishlist,
     remove_from_wishlist,
-    add_review
+    add_review,
+    order_detail_view,
+    order_success_detail_view,
+    reorder_order,
+    address_book_view,
+    address_edit_view,
+    address_delete_view,
+    address_default_view,
 )
 
 app_name = 'core'
@@ -37,7 +44,14 @@ urlpatterns = [
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
     path('order-success/', order_success_view, name='order-success'),
+    path('order-success/<str:ref_code>/', order_success_detail_view, name='order-success-detail'),
+    path('orders/<str:ref_code>/', order_detail_view, name='order-detail'),
+    path('orders/<str:ref_code>/reorder/', reorder_order, name='reorder-order'),
     path('profile/', profile_view, name='profile'),
+    path('profile/addresses/', address_book_view, name='address-book'),
+    path('profile/addresses/<int:pk>/edit/', address_edit_view, name='address-edit'),
+    path('profile/addresses/<int:pk>/delete/', address_delete_view, name='address-delete'),
+    path('profile/addresses/<int:pk>/default/', address_default_view, name='address-default'),
     path('wishlist/', wishlist_view, name='wishlist'),
     path('add-to-wishlist/<slug>/', add_to_wishlist, name='add-to-wishlist'),
     path('remove-from-wishlist/<slug>/', remove_from_wishlist, name='remove-from-wishlist'),

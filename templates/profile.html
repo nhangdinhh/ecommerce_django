@@ -1,102 +1,124 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
-<div class="container mt-5 mb-5">
-    <div class="row">
-        <div class="col-12 mb-4">
-            <h2 style="font-weight: 700; font-size: 1.8rem; letter-spacing: -0.5px; color: #1a1a1a;">My Profile</h2>
-        </div>
-    </div>
-    
-    <div class="profile-grid">
-        <!-- Profile Sidebar -->
-        <div class="glass-panel p-0 text-center position-relative overflow-hidden" style="border-radius: var(--border-radius-lg);">
-            <!-- Top Banner for Profile -->
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 120px; background: linear-gradient(135deg, #1f2937, #4b5563); opacity: 0.85; z-index: 0;"></div>
-            
-            <div class="p-4" style="position: relative; z-index: 1; margin-top: 40px;">
-                {% if profile.avatar %}
-                    <img src="{{ profile.avatar.url }}" alt="Avatar" class="rounded-circle mb-3 shadow-lg" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid white; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                {% else %}
-                    <img src="{% static 'images/avatar-default.png' %}" alt="Avatar" class="rounded-circle mb-3 shadow-lg" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid white; background: #fff; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                {% endif %}
-                <h4 class="mb-1" style="font-weight: 700;">{{ request.user.username }}</h4>
-                <p class="text-muted mb-4">{{ request.user.email }}</p>
-                
-                <div class="text-left px-2">
-                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                        <span class="text-muted"><i class="fa fa-user mr-2"></i> Full Name</span>
-                        <span style="font-weight: 500;">{% if request.user.first_name or request.user.last_name %}{{ request.user.first_name }} {{ request.user.last_name }}{% else %}Not set{% endif %}</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                        <span class="text-muted"><i class="fa fa-phone mr-2"></i> Phone</span>
-                        <span style="font-weight: 500;">{{ profile.phone|default:"Not set" }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                        <span class="text-muted"><i class="fa fa-map-marker mr-2"></i> Address</span>
-                        <span style="font-weight: 500; text-align: right; max-width: 60%;">{{ profile.address|default:"Not set" }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                        <span class="text-muted"><i class="fa fa-calendar mr-2"></i> Member Since</span>
-                        <span style="font-weight: 500;">{{ request.user.date_joined|date:"M j, Y" }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                        <span class="text-muted"><i class="fa fa-shopping-bag mr-2"></i> Total Orders</span>
-                        <span style="font-weight: 500;">{{ orders|length }}</span>
-                    </div>
-                </div>
-                
-                <button class="btn btn-outline-dark mt-3 w-100" style="border-radius: 9999px;">
-                    Edit Profile
-                </button>
-            </div>
-        </div>
 
-        <!-- Order History -->
-        <div class="glass-panel p-4">
-            <h4 class="mb-4">Order History</h4>
-            {% if orders %}
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Date</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for order in orders %}
-                            <tr>
-                                <td>#{{ order.ref_code }}</td>
-                                <td>{{ order.ordered_date|date:"F j, Y" }}</td>
-                                <td>${{ order.get_total }}</td>
-                                <td>
-                                    {% if order.refund_requested %}
-                                        <span class="badge badge-warning">Refund Requested</span>
-                                    {% elif order.refund_granted %}
-                                        <span class="badge badge-danger">Refunded</span>
-                                    {% elif order.received %}
-                                        <span class="badge badge-success">Received</span>
-                                    {% elif order.being_delivered %}
-                                        <span class="badge badge-info">Shipped</span>
-                                    {% else %}
-                                        <span class="badge badge-primary">Processing</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            {% else %}
-                <div class="text-center p-5">
-                    <h5 class="text-muted">You haven't placed any orders yet.</h5>
-                    <a href="{% url 'core:shop' %}" class="btn btn-dark mt-3" style="border-radius: 9999px;">Start Shopping</a>
-                </div>
-            {% endif %}
+{% block head_title %}My account | Nhang Shop{% endblock %}
+{% block extra_head %}<link href="{% static 'css/profile.css' %}" rel="stylesheet">{% endblock %}
+
+{% block content %}
+<main class="profile-page">
+  <div class="profile-container">
+    <nav class="profile-breadcrumb" aria-label="Breadcrumb">
+      <a href="{% url 'core:home' %}">Home</a><span aria-hidden="true">/</span><span>My account</span>
+    </nav>
+
+    <header class="profile-heading">
+      <p class="profile-eyebrow">YOUR NHANG SHOP ACCOUNT</p>
+      <h1>Welcome back, <span>{{ request.user.first_name|default:request.user.username }}</span></h1>
+      <p>Keep your details up to date and find your recent orders in one place.</p>
+    </header>
+
+    <div class="profile-layout">
+      <aside class="profile-card profile-summary">
+        <div class="profile-summary__topline"></div>
+        {% if profile.avatar %}
+          <img class="profile-avatar" src="{{ profile.avatar.url }}" alt="{{ request.user.username }}'s profile photo">
+        {% else %}
+          <div class="profile-avatar profile-avatar--initial" aria-hidden="true">{{ request.user.first_name|default:request.user.username|first|upper }}</div>
+        {% endif %}
+        <h2>{% if request.user.first_name or request.user.last_name %}{{ request.user.first_name }} {{ request.user.last_name }}{% else %}{{ request.user.username }}{% endif %}</h2>
+        <p class="profile-summary__email">{{ request.user.email|default:"Add an email address" }}</p>
+        <span class="profile-member"><span aria-hidden="true">✦</span> Member since {{ request.user.date_joined|date:"M Y" }}</span>
+        <div class="profile-summary__stats">
+          <div><strong>{{ order_count }}</strong><span>Orders</span></div>
+          <div><strong>{% if profile.phone %}Added{% else %}—{% endif %}</strong><span>Phone</span></div>
         </div>
+        <a class="profile-summary__link" href="#profile-details">Update your details <span aria-hidden="true">↓</span></a>
+        <a class="profile-summary__link" href="{% url 'core:address-book' %}">Manage delivery addresses <span aria-hidden="true">↗</span></a>
+      </aside>
+
+      <section class="profile-card profile-details" id="profile-details">
+        <div class="profile-section-heading">
+          <div><p class="profile-eyebrow">ACCOUNT DETAILS</p><h2>Personal information</h2></div>
+          <span class="profile-section-icon" aria-hidden="true">01</span>
+        </div>
+        <p class="profile-section-intro">Use the details you’d like us to use for your orders and updates.</p>
+
+        <form method="post" enctype="multipart/form-data" class="profile-form">
+          {% csrf_token %}
+          {% if form.non_field_errors %}<div class="profile-errors">{{ form.non_field_errors }}</div>{% endif %}
+          <div class="profile-form-grid">
+            <div class="profile-field">
+              {{ form.first_name.label_tag }}{{ form.first_name }}
+              {% for error in form.first_name.errors %}<small class="profile-field__error">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="profile-field">
+              {{ form.last_name.label_tag }}{{ form.last_name }}
+              {% for error in form.last_name.errors %}<small class="profile-field__error">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="profile-field profile-field--full">
+              {{ form.email.label_tag }}{{ form.email }}
+              {% for error in form.email.errors %}<small class="profile-field__error">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="profile-field">
+              {{ form.phone.label_tag }}{{ form.phone }}
+              {% for error in form.phone.errors %}<small class="profile-field__error">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="profile-field profile-field--full">
+              {{ form.address.label_tag }}{{ form.address }}
+              {% for error in form.address.errors %}<small class="profile-field__error">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="profile-field profile-field--full">
+              {{ form.avatar.label_tag }}{{ form.avatar }}
+              {% if form.avatar.help_text %}<small class="profile-field__hint">{{ form.avatar.help_text }}</small>{% endif %}
+              {% for error in form.avatar.errors %}<small class="profile-field__error">{{ error }}</small>{% endfor %}
+            </div>
+          </div>
+          <div class="profile-form__footer">
+            <span>Your username stays <strong>{{ request.user.username }}</strong>.</span>
+            <button type="submit" class="profile-save"><span aria-hidden="true">✓</span> Save changes</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="profile-card profile-orders">
+        <div class="profile-section-heading">
+          <div><p class="profile-eyebrow">YOUR PURCHASES</p><h2>Order history</h2></div>
+          <a class="profile-orders__shop-link" href="{% url 'core:shop' %}">Continue shopping <span aria-hidden="true">↗</span></a>
+        </div>
+        {% if orders %}
+          <div class="profile-orders__list">
+            {% for order in orders %}
+              <article class="profile-order">
+                <div class="profile-order__mark" aria-hidden="true">N</div>
+                <div class="profile-order__info">
+                  <strong>Order #{{ order.ref_code }}</strong>
+                  <span>{{ order.ordered_date|date:"M j, Y" }}</span>
+                </div>
+                <div class="profile-order__total"><span>Total</span><strong>${{ order.get_total|floatformat:2 }}</strong></div>
+                <div class="profile-order__status">
+                  <span class="profile-status {% if order.status == 'delivered' %}profile-status--complete{% elif order.status == 'shipped' or order.status == 'delivery_failed' or order.status == 'returning' %}profile-status--shipping{% elif order.status == 'cancelled' or order.status == 'returned' or order.status == 'refunded' %}profile-status--muted{% else %}profile-status--pending{% endif %}">{{ order.get_status_display }}</span>
+                </div>
+                <a class="profile-orders__shop-link" href="{% url 'core:order-detail' order.ref_code %}">Track order</a>
+              </article>
+            {% endfor %}
+          </div>
+          {% if orders.has_other_pages %}
+            <nav class="profile-orders__pagination" aria-label="Order history pages">
+              {% if orders.has_previous %}<a href="?orders_page={{ orders.previous_page_number }}" aria-label="Previous page">← Previous</a>{% endif %}
+              <span>Page {{ orders.number }} of {{ orders.paginator.num_pages }}</span>
+              {% if orders.has_next %}<a href="?orders_page={{ orders.next_page_number }}" aria-label="Next page">Next →</a>{% endif %}
+            </nav>
+          {% endif %}
+        {% else %}
+          <div class="profile-empty">
+            <span class="profile-empty__icon" aria-hidden="true">♡</span>
+            <h3>Your next favourite starts here.</h3>
+            <p>Your orders will appear here once you’ve found something you love.</p>
+            <a href="{% url 'core:shop' %}" class="profile-save">Explore the collection <span aria-hidden="true">↗</span></a>
+          </div>
+        {% endif %}
+      </section>
     </div>
-</div>
+  </div>
+</main>
 {% endblock content %}

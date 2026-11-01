@@ -7,8 +7,16 @@
   {% block extra_head %}{% endblock %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+  <link href="{% static 'css/storefront_hero.css' %}?v=20261030-flow1" rel="stylesheet">
+  <link href="{% static 'css/cream_theme.css' %}" rel="stylesheet">
+  <link href="{% static 'css/site_upgrade.css' %}?v=home-type-3-image-fill" rel="stylesheet">
+  <link href="{% static 'css/storefront_refinement.css' %}?v=home-type-2" rel="stylesheet">
+  <link href="{% static 'css/catalog_refinement.css' %}?v=catalog-20261101-image-fill" rel="stylesheet">
+  {% if request.resolver_match.url_name != 'home' %}
+  <link href="{% static 'css/storefront_pages.css' %}?v=20261101-product-button" rel="stylesheet">
+  {% endif %}
   <style type="text/css">
     html, body {
       height: 100%;
@@ -38,7 +46,7 @@
       transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     }
   </style>
-  <body class="animsition">
+  <body class="animsition cream-theme{% if request.resolver_match.url_name == 'home' %} home-page{% endif %}">
     <div class="wrapper">
       {% include "nav.html" %}
       <div class="mt-2 content">

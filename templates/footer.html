@@ -1,85 +1,43 @@
-{% load static %}
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css?family=Lato:400,700|Open+Sans:400,600&display=swap" rel="stylesheet">
-<!-- Tailwind CSS CDN -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<footer id="footer-main" class="site-footer">
+  <div class="container site-footer__container">
+    <nav class="site-footer__grid" aria-label="Footer">
+      <section class="site-footer__section">
+        <h2>Nhang Shop</h2>
+        <p>Considered pieces for everyday life.</p>
+        <a href="{% url 'core:home' %}">Home</a>
+        <a href="{% url 'core:shop' %}">Shop the collection</a>
+      </section>
 
-<style>
-    #footer-main {
-        background: #1a252f;
-        color: #e2e8f0;
-        font-family: 'Lato', sans-serif;
-    }
+      <section class="site-footer__section">
+        <h2>Customer service</h2>
+        <a href="{% if request.user.is_authenticated %}{% url 'core:profile' %}{% else %}{% url 'account_login' %}{% endif %}">Track an order</a>
+        <a href="{% url 'core:request-refund' %}">Returns and refunds</a>
+        <a href="{% url 'core:shop' %}">Shop available styles</a>
+      </section>
 
-    #footer-main a {
-        color: #a0aec0;
-        transition: color 0.2s ease-in-out;
-    }
+      <section class="site-footer__section">
+        <h2>Your account</h2>
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'core:profile' %}">Profile and orders</a>
+          <a href="{% url 'core:wishlist' %}">Wishlist</a>
+          <a href="{% url 'core:order-summary' %}">Shopping bag</a>
+        {% else %}
+          <a href="{% url 'account_login' %}">Sign in</a>
+          <a href="{% url 'account_signup' %}">Create an account</a>
+          <a href="{% url 'account_login' %}">View your shopping bag</a>
+        {% endif %}
+      </section>
 
-    #footer-main a:hover {
-        color: #ffffff;
-        font-weight: 600;
-    }
-
-    #footer-main h6 a {
-        color: #ffffff;
-        font-weight: 700;
-    }
-
-    #footer-main hr {
-        border-top: 1px solid #4a5568;
-    }
-
-    #footer-main .social-icons a {
-        margin-right: 1rem;
-        font-size: 1.5rem;
-    }
-</style>
-
-<footer id="footer-main" class="py-12">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- About Section -->
-            <div>
-                <h6 class="text-lg font-bold mb-4"><a href="#">About Nhang Shop</a></h6>
-                <a href="#" class="block mb-2">Our Story</a>
-                <a href="#" class="block mb-2">Blog</a>
-                <a href="#" class="block mb-2">Careers</a>
-                <a href="#" class="block mb-2">Press & Media</a>
-            </div>
-            <!-- Customer Service Section -->
-            <div>
-                <h6 class="text-lg font-bold mb-4"><a href="#">Customer Service</a></h6>
-                <a href="#" class="block mb-2">Order Tracking</a>
-                <a href="#" class="block mb-2">Shipping Information</a>
-                <a href="#" class="block mb-2">Returns & Refunds</a>
-                <a href="#" class="block mb-2">Contact Support</a>
-            </div>
-            <!-- Connect Section -->
-            <div>
-                <h6 class="text-lg font-bold mb-4"><a href="#">Join Our Community</a></h6>
-                <a href="#" class="block mb-2">Become a Member</a>
-                <a href="#" class="block mb-2">Stay Updated</a>
-                <a href="#" class="block mb-2">Membership Benefits</a>
-                <a href="/admin/" class="block mb-2">Community Events</a>
-            </div>
-            <!-- Social & Apps Section -->
-            <div>
-                <h6 class="text-lg font-bold mb-4"><a href="#">Connect With Us</a></h6>
-                <div class="social-icons flex mb-4">
-                    <a href="#" class="fab fa-facebook"></a>
-                    <a href="#" class="fab fa-instagram"></a>
-                    <a href="#" class="fab fa-twitter"></a>
-                    <a href="#" class="fab fa-youtube"></a>
-                </div>
-                <a href="#" class="block mb-2"><i class="fab fa-apple mr-2"></i> App Store</a>
-                <a href="#" class="block mb-2"><i class="fab fa-google-play mr-2"></i> Google Play</a>
-            </div>
-        </div>
-        <hr class="my-8">
-        <div class="text-center">
-            <p class="text-sm">&copy; 2025 Nhang Shop. All rights reserved.</p>
-        </div>
+      <section class="site-footer__section site-footer__help">
+        <h2>Need help?</h2>
+        <p>Order updates are sent to the email address on your account. For a return or refund request, include your order reference and account email.</p>
+        <a href="{% url 'core:request-refund' %}">Request help with an order <span aria-hidden="true">↗</span></a>
+      </section>
+    </nav>
+    <div class="site-footer__bottom">
+      <span>© {% now "Y" %} Nhang Shop. All rights reserved.</span>
+      <a href="{% url 'core:shop' %}">Discover the collection</a>
     </div>
+  </div>
 </footer>
 

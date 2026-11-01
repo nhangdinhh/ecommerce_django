@@ -1,0 +1,15 @@
+{% extends "admin/change_list.html" %}
+{% block content %}
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:0 0 20px">
+    {% for status in order_status_summary %}
+      <a href="?status={{ status.value }}" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--hairline-color);border-radius:8px;background:var(--body-bg);text-decoration:none">
+        <span>{{ status.label }}</span><strong>{{ status.count }}</strong>
+      </a>
+    {% endfor %}
+  </div>
+  {{ block.super }}
+{% endblock %}
+{% block object-tools-items %}
+  <li><a href="{% url 'admin:core_order_sales_report' %}">Báo cáo doanh thu</a></li>
+  {{ block.super }}
+{% endblock %}

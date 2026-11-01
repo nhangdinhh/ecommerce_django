@@ -1,130 +1,68 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block head_title %}Checkout | Nhang Shop{% endblock %}
+{% block extra_head %}<link href="{% static 'css/commerce_flow.css' %}?v=20261101-image-fill" rel="stylesheet">{% endblock %}
+
 {% block content %}
+{% include "includes/page_hero.html" with title="Make it yours" eyebrow="CHECKOUT" description="Just a few details to bring your favourites home." compact=False shopping=False %}
 
-<!-- Title Page -->
-<section class="bg-title-page p-t-100 p-b-100 flex-col-c-m" 
-         style="background: linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(75, 85, 99, 0.9)), url('{% static 'images/heading-pages-02.jpg' %}') no-repeat center center; background-size: cover; position: relative;">
-	<h2 class="l-text2 t-center text-white" style="font-weight: 800; font-size: 3.5rem; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-		CHECKOUT
-	</h2>
-	<p class="m-text13 t-center text-white mt-2" style="font-size: 1.2rem; font-weight: 500;">
-		Secure Your Purchase
-	</p>
-</section>
-
-<style>
-  .form-control {
-    display: block;
-    width: 100%;
-    padding: .8rem 1rem;
-    font-size: 1rem;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #e6e6e6 !important;
-    border-radius: 4px;
-    box-shadow: none;
-    transition: all 0.2s ease;
-  }
-  .form-control:focus {
-    border-color: #e65540 !important;
-    outline: none;
-    box-shadow: none;
-  }
-  .form-label {
-    font-weight: 500;
-    margin-bottom: .5rem;
-    color: #333;
-    font-size: 0.95rem;
-  }
-  .form-section {
-    background: #ffffff;
-    padding: 3rem;
-    border-radius: 8px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
-    margin-bottom: 30px;
-  }
-  .checkout-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #333;
-    padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid #f2f2f2;
-  }
-  .form-check-label {
-    color: #555;
-    padding-left: 0 !important;
-  }
-  .form-check-input {
-    position: relative !important;
-    margin-top: 0 !important;
-    margin-left: 0 !important;
-  }
-</style>
-
-<div class="container p-t-65 p-b-50">
-  <div class="row">
-    <div class="col-md-7 col-lg-8 form-section">
-      <h4 class="checkout-title">Billing Information</h4>
-      <form method="POST" class="needs-validation" novalidate>
-        {% csrf_token %}
-
-        <div class="mb-4">
-          <label class="form-label" for="username">Username</label>
-          {{ form.username }}
-        </div>
-
-        <div class="mb-4">
-          <label class="form-label" for="phone">Phone Number</label>
-          {{ form.phone_number }}
-        </div>
-
-        <div class="mb-4">
-          <label class="form-label" for="address">Street Address</label>
-          {{ form.street_address }}
-        </div>
-
-        <hr class="my-4" style="border-color: #f2f2f2;">
-
-        <div class="form-check mb-4" style="display: flex; align-items: center; gap: 10px;">
-          <input {% if form.save_info.value %}checked{% endif %} class="form-check-input" type="checkbox" id="save-info" style="width: 18px; height: 18px; margin: 0;">
-          <label class="form-check-label m-b-0" for="save-info" style="cursor: pointer; padding-top: 2px;">
-            Save this information for future purchases
-          </label>
-        </div>
-
-        <h4 class="checkout-title m-t-40">Payment Method</h4>
-        <div class="my-3">
-          <div class="form-check mb-3" style="display: flex; align-items: center; gap: 10px;">
-            <input id="Online" name="payment_option" value="Online" type="radio" class="form-check-input" disabled style="margin: 0; width: 18px; height: 18px;">
-            <label class="form-check-label text-muted m-b-0" for="Online" style="padding-top: 2px;">
-              Online Payment (Coming Soon)
-            </label>
-          </div>
-
-          <div class="form-check" style="display: flex; align-items: center; gap: 10px;">
-            <input id="COD" name="payment_option" value="Cash on Delivery" type="radio" class="form-check-input" required checked style="margin: 0; width: 18px; height: 18px;">
-            <label class="form-check-label m-b-0" for="COD" style="cursor: pointer; padding-top: 2px; font-weight: 500; color: #333;">Cash on Delivery</label>
-          </div>
-        </div>
-
-        <hr class="my-4" style="border-color: #f2f2f2;">
-
-        <div class="mb-4">
-          <label class="form-label" for="note">Order Note <span class="text-muted" style="font-weight: normal; font-size: 0.85rem;">(Optional)</span></label>
-          <textarea name="note" id="note" class="form-control" rows="4" placeholder="Write any specific request for delivery..."></textarea>
-        </div>
-
-        <button class="flex-c-m bg4 bo-rad-23 hov1 s-text1 trans-0-4 w-full" style="color: white; height: 50px; font-weight: bold; border: none; font-size: 1.1rem; margin-top: 2rem;" type="submit">
-          Place Order
-        </button>
-      </form>
+<main id="collection-products" class="commerce-page commerce-checkout-page">
+  <div class="commerce-container">
+    <div class="commerce-page-heading">
+      <div><p class="commerce-eyebrow">ONE LAST STEP</p><h2>Delivery & payment</h2></div>
+      <span class="checkout-step"><span>01</span> Details <i></i><span>02</span> Confirmation</span>
     </div>
 
-    {% include "order_snippet.html" %}
-  </div>
-</div>
+    <div class="checkout-layout">
+      <section class="checkout-card">
+        <div class="checkout-card__heading"><span class="checkout-card__number">01</span><div><h3>Where should we send it?</h3><p>We’ll use these details to prepare your delivery.</p></div></div>
+        {% if form.non_field_errors %}<div class="checkout-errors">{{ form.non_field_errors }}</div>{% endif %}
+        <form method="post" class="checkout-form">
+          {% csrf_token %}
+          {% if form.saved_address.field.queryset.exists %}<div class="checkout-field checkout-field--full"><label for="id_saved_address">Use a saved address</label>{{ form.saved_address }}<small><a href="{% url 'core:address-book' %}">Manage address book</a></small></div>{% endif %}
+          <div class="checkout-form__grid">
+            <div class="checkout-field checkout-field--full">
+              <label for="id_recipient_name">Recipient full name</label>{{ form.recipient_name }}
+              {% for error in form.recipient_name.errors %}<small class="checkout-error">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="checkout-field">
+              <label for="id_phone_number">Phone number</label>{{ form.phone_number }}
+              {% for error in form.phone_number.errors %}<small class="checkout-error">{{ error }}</small>{% endfor %}
+            </div>
+            <div class="checkout-field checkout-field--full">
+              <label for="id_street_address">Delivery address</label>{{ form.street_address }}
+              {% for error in form.street_address.errors %}<small class="checkout-error">{{ error }}</small>{% endfor %}
+            </div>
+          </div>
 
+          <label class="checkout-save-info"><input type="checkbox" name="save_info" {% if request.POST.save_info %}checked{% endif %}><span class="checkout-save-info__check" aria-hidden="true">✓</span><span><strong>Remember these details</strong><small>Save this recipient, phone and delivery address for next time.</small></span></label>
+
+          <div class="checkout-payment">
+            <div class="checkout-card__heading"><span class="checkout-card__number">02</span><div><h3>Payment method</h3><p>Pay when your order arrives.</p></div></div>
+            <label class="checkout-payment__choice"><input type="radio" name="payment_option" value="Cash on Delivery" checked><span class="checkout-payment__radio" aria-hidden="true"></span><span class="checkout-payment__icon" aria-hidden="true">₫</span><span><strong>Cash on delivery</strong><small>Pay the courier when you receive your order.</small></span><span class="checkout-payment__selected">Selected</span></label>
+          </div>
+
+          <button type="submit" class="commerce-button commerce-button--dark checkout-submit">Place order <span aria-hidden="true">↗</span></button>
+          <p class="checkout-privacy">The shop will confirm the delivery fee before dispatch. You can review and accept the final total on your order page.</p>
+        </form>
+      </section>
+
+      {% include "order_snippet.html" %}
+    </div>
+  </div>
+</main>
+<script>
+(() => {
+  const saved = document.getElementById('id_saved_address');
+  if (!saved) return;
+  saved.addEventListener('change', () => {
+    const option = saved.selectedOptions[0];
+    if (!option || !option.value) return;
+    document.getElementById('id_recipient_name').value = option.dataset.recipient || '';
+    document.getElementById('id_phone_number').value = option.dataset.phone || '';
+    document.getElementById('id_street_address').value = option.dataset.street || '';
+  });
+})();
+</script>
 {% endblock content %}

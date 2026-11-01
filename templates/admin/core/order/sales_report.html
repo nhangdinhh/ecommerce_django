@@ -1,0 +1,14 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<p><a href="{% url 'admin:core_order_changelist' %}">← Quay lại danh sách đơn hàng</a></p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin:20px 0">
+  <section style="background:var(--body-bg);padding:20px;border:1px solid var(--hairline-color)"><h2>Doanh thu đã thu</h2><strong>{{ paid_revenue|floatformat:2 }}</strong></section>
+  <section style="background:var(--body-bg);padding:20px;border:1px solid var(--hairline-color)"><h2>Đơn đã thanh toán</h2><strong>{{ paid_orders }}</strong></section>
+  <section style="background:var(--body-bg);padding:20px;border:1px solid var(--hairline-color)"><h2>COD cần thu</h2><strong>{{ pending_cod }}</strong><p>Tổng tiền dự kiến: {{ pending_cod_amount|floatformat:2 }}</p></section>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
+  <section><h2>Đơn hàng theo trạng thái</h2><table class="adminlist"><thead><tr><th>Trạng thái</th><th>Số đơn</th></tr></thead><tbody>{% for row in status_counts %}<tr><td>{{ row.status_label }}</td><td>{{ row.total }}</td></tr>{% empty %}<tr><td colspan="2">Chưa có dữ liệu đơn hàng.</td></tr>{% endfor %}</tbody></table></section>
+  <section><h2>Sản phẩm bán chạy · đã giao</h2><table class="adminlist"><thead><tr><th>Sản phẩm</th><th>Số lượng</th></tr></thead><tbody>{% for row in top_products %}<tr><td>{{ row.item__title }}</td><td>{{ row.quantity }}</td></tr>{% empty %}<tr><td colspan="2">Chưa có đơn đã giao.</td></tr>{% endfor %}</tbody></table></section>
+  <section><h2>Tiền thu mỗi ngày · 30 ngày gần nhất</h2><table class="adminlist"><thead><tr><th>Ngày</th><th>Số tiền</th></tr></thead><tbody>{% for row in daily_revenue %}<tr><td>{{ row.day|date:"j/m/Y" }}</td><td>{{ row.total|floatformat:2 }}</td></tr>{% empty %}<tr><td colspan="2">Chưa có khoản thu trong giai đoạn này.</td></tr>{% endfor %}</tbody></table></section>
+</div>
+{% endblock %}

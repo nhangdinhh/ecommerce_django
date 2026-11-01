@@ -1,87 +1,24 @@
-<style>
-  .snippet-section {
-    background: #fdfdfd;
-    padding: 2.5rem 2rem;
-    border-radius: 8px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f2f2f2;
-  }
-  .snippet-item {
-    border-bottom: 1px dashed #e6e6e6;
-    padding: 1rem 0;
-  }
-  .snippet-item:last-child {
-    border-bottom: none;
-  }
-  .snippet-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #333;
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #f2f2f2;
-  }
-</style>
-
-<div class="col-md-5 col-lg-4 mb-4">
-  <div class="snippet-section">
-    <h4 class="d-flex justify-content-between align-items-center snippet-title">
-      <span>Your Order</span>
-      <span class="badge" style="background-color: #e65540; color: #fff; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem;">{{ order.items.count }} items</span>
-    </h4>
-    
-    <div class="mb-3">
-      {% for order_item in order.items.all %}
-      <div class="d-flex justify-content-between snippet-item">
-        <div style="width: 75%;">
-          <h6 class="my-0" style="color: #333; font-weight: 500; font-size: 0.95rem; line-height: 1.4;">{{ order_item.item.title }}</h6>
-          <small class="text-muted" style="font-size: 0.8rem;">Qty: {{ order_item.quantity }}</small>
-        </div>
-        <span class="text-dark" style="font-weight: 500;">${{ order_item.get_final_price }}</span>
+<aside class="order-snippet">
+  <div class="order-snippet__heading"><div><p class="commerce-eyebrow">YOUR SELECTION</p><h3>Order summary</h3></div><span>{{ order.items.count }} item{{ order.items.count|pluralize }}</span></div>
+  <div class="order-snippet__items">
+    {% for order_item in order.items.all %}
+      <div class="order-snippet__item">
+        <div class="order-snippet__image"><img src="{{ order_item.item.image.url }}" alt="{{ order_item.item.title }}"></div>
+        <div class="order-snippet__product"><strong>{{ order_item.item.title }}</strong><span>{% if order_item.variant %}{{ order_item.variant.size }} · {{ order_item.variant.color }} · {% endif %}Qty {{ order_item.quantity }} · ${{ order_item.get_final_price|floatformat:2 }}</span></div>
+        <strong class="order-snippet__line-total">${{ order_item.get_final_price|floatformat:2 }}</strong>
       </div>
-      {% endfor %}
-      
-      {% if order.coupon %}
-      <div class="d-flex justify-content-between snippet-item">
-        <div class="text-success">
-          <h6 class="my-0" style="font-weight: 500; font-size: 0.95rem;">Promo code</h6>
-          <small>{{order.coupon.code}}</small>
-        </div>
-        <span class="text-success" style="font-weight: 500;">-${{ order.coupon.amount }}</span>
-      </div>
-      {% endif %}
-      
-      <div class="d-flex justify-content-between p-t-20 p-b-10 m-t-10" style="border-top: 1px solid #e6e6e6;">
-        <span style="font-size: 1.1rem; color: #333; font-weight: 600;">Total</span>
-        <strong style="font-size: 1.3rem; color: #e65540;">${{ order.get_total }}</strong>
-      </div>
-    </div>
-    
-    {% if DISPLAY_COUPON_FORM %}
-    <form method="POST" action="{% url 'core:add-coupon' %}" class="m-t-20 p-t-20" style="border-top: 1px solid #f2f2f2;">
-      {% csrf_token %}
-      <div class="bo4 of-hidden flex-w flex-m" style="border-radius: 23px;">
-        {{ couponform.code }}
-        <button type="submit" class="flex-c-m bg1 bo-rad-23 hov1 s-text1 trans-0-4" style="color: white; padding: 0 20px; height: 40px; margin: 2px;">
-          Redeem
-        </button>
-      </div>
-    </form>
-    <style>
-      /* Make the coupon form input blend in */
-      #id_code {
-        width: 60%;
-        border: none !important;
-        background: transparent;
-        padding: 0 15px;
-        box-shadow: none !important;
-        outline: none !important;
-      }
-      #id_code:focus {
-        border: none !important;
-        box-shadow: none !important;
-      }
-    </style>
-    {% endif %}
+    {% endfor %}
   </div>
-</div>
+  <div class="order-snippet__line-detail"><span>Items subtotal</span><span>${{ order.get_items_subtotal|floatformat:2 }}</span></div>
+  {% if order.coupon %}<div class="order-snippet__discount"><span>Promo · {{ order.coupon.code }}</span><span>−${{ order.coupon.amount|floatformat:2 }}</span></div>{% endif %}
+  <div class="order-snippet__line-detail"><span>Delivery fee</span><span>{% if order.shipping_fee_confirmed %}${{ order.shipping_fee|floatformat:2 }}{% else %}To be confirmed{% endif %}</span></div>
+  <div class="order-snippet__total"><span>Current amount due</span><strong>${{ order.get_total|floatformat:2 }}</strong></div>
+  {% if DISPLAY_COUPON_FORM %}
+    <form method="post" action="{% url 'core:add-coupon' %}" class="order-coupon">
+      {% csrf_token %}
+      <label for="id_code">Have a code?</label>
+      <div>{{ couponform.code }}<button type="submit" aria-label="Apply coupon">Apply</button></div>
+    </form>
+  {% endif %}
+  <p class="order-snippet__note"><span aria-hidden="true">✦</span> Cash on delivery. The shop confirms delivery fee before dispatch.</p>
+</aside>

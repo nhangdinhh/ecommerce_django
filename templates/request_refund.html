@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_title %}Returns & Refunds | Nhang Shop{% endblock %}
+{% block content %}
+{% include "includes/page_hero.html" with title="Returns & refunds" eyebrow="HERE TO HELP" description="Tell us about your order and our team will review your request." hero_image="kfashion/shoes_korean_loafers.jpg" hero_alt="Song Hye-kyo wearing loafers" compact=True %}
+
+<main class="refund-page">
+  <section class="refund-card">
+    <div class="refund-card__intro">
+      <span class="refund-card__icon" aria-hidden="true">↺</span>
+      <p class="site-eyebrow">CUSTOMER CARE</p>
+      <h2>Let’s make it right.</h2>
+      <p>Enter your order reference and the email used at checkout. We’ll review your request and follow up with you.</p>
+    </div>
+    <form method="post" class="refund-form">
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="site-form-errors">{{ form.non_field_errors }}</div>{% endif %}
+      <div class="site-form-field">
+        <label for="id_ref_code">Order reference</label>{{ form.ref_code }}
+        {% for error in form.ref_code.errors %}<small>{{ error }}</small>{% endfor %}
+      </div>
+      <div class="site-form-field">
+        <label for="id_email">Email used for your order</label>{{ form.email }}
+        {% for error in form.email.errors %}<small>{{ error }}</small>{% endfor %}
+      </div>
+      <div class="site-form-field">
+        <label for="id_message">How can we help?</label>{{ form.message }}
+        {% for error in form.message.errors %}<small>{{ error }}</small>{% endfor %}
+      </div>
+      <button type="submit" class="site-primary-button">Submit request <span aria-hidden="true">↗</span></button>
+    </form>
+    <p class="refund-card__footnote">Please allow our team a little time to review your request. Return requests currently cover all items in the order; our team will send return instructions after approval.</p>
+  </section>
+</main>
+{% endblock content %}

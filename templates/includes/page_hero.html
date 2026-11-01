@@ -1,0 +1,36 @@
+{% load static %}
+<section class="collection-hero{% if compact %} collection-hero--compact{% else %} collection-hero--full{% endif %}{% if shopping %} collection-hero--shopping{% endif %}{% if category %} collection-hero--category{% endif %}" aria-label="{{ title }}">
+  <div class="container collection-hero__layout">
+    <div class="collection-hero__copy">
+      <nav class="collection-hero__crumbs" aria-label="Breadcrumb">
+        <a href="{% url 'core:home' %}">Home</a><span aria-hidden="true">/</span>
+        {% if category %}<a href="{% url 'core:shop' %}">Shop</a><span aria-hidden="true">/</span>{% endif %}
+        <span aria-current="page">{{ title }}</span>
+      </nav>
+      <p class="collection-hero__eyebrow">NHANG SHOP <span></span> {{ eyebrow }}</p>
+      <h1>{{ title }}<span class="collection-hero__dot">.</span></h1>
+      {% if description and description != title %}<p class="collection-hero__description">{{ description }}</p>{% endif %}
+      {% if not compact %}
+      <a class="collection-hero__cta" href="#collection-products">Explore the collection <span aria-hidden="true">↗</span></a>
+      <div class="collection-hero__note"><span aria-hidden="true">✳</span> Everyday pieces. Your own signature.</div>
+      {% else %}
+      <a class="collection-hero__text-link" href="{% url 'core:shop' %}">Continue exploring <span aria-hidden="true">→</span></a>
+      {% endif %}
+    </div>
+    <div class="collection-hero__visual">
+      {% if image %}
+      <img src="{{ image.url }}" alt="{{ title }} collection" fetchpriority="high">
+      {% elif hero_image %}
+      <img src="{% get_media_prefix %}{{ hero_image }}" alt="{{ hero_alt|default:title }}" fetchpriority="high">
+      {% else %}
+      <img src="{% static 'images/banner_aesthetic.png' %}" alt="Neutral clothing and knitwear in a sunlit fashion studio" width="1024" height="1024" fetchpriority="high">
+      {% endif %}
+      {% if compact and hero_caption %}
+      <div class="collection-hero__caption"><span>{{ hero_caption }}</span><strong>{{ hero_tagline }}</strong></div>
+      {% elif not compact %}
+      <div class="collection-hero__caption"><span>THE EVERYDAY EDIT</span><strong>Less noise.<br>More you.</strong></div>
+      <span class="collection-hero__vertical" aria-hidden="true">THE NHANG SHOP COLLECTION</span>
+      {% endif %}
+    </div>
+  </div>
+</section>

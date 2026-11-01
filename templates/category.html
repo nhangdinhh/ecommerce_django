@@ -21,20 +21,11 @@
 </style>
 
 	<!-- Title Page -->
-	<section class="bg-title-page p-t-100 p-b-100 flex-col-c-m" 
-         style="background: linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(75, 85, 99, 0.9)), url('{% static 'images/heading-pages-02.jpg' %}') no-repeat center center; background-size: cover; position: relative;">
-
-		<h2 class="l-text2 t-center text-white" style="font-weight: 800; font-size: 3.5rem; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-			{{ category_title|upper }}
-		</h2>
-		<p class="m-text13 t-center text-white mt-2" style="font-size: 1.2rem; font-weight: 500;">
-			{{ category_description|default:"Discover Our Premium Collection" }}
-		</p>
-	</section>
+	{% include "includes/page_hero.html" with title=category_title.title eyebrow="EXPLORE THE EDIT" description=category_description image=category_image category=True %}
 
 
 	<!-- Content page -->
-	<section class="bgwhite p-t-55 p-b-65">
+	<section id="collection-products" class="bgwhite p-t-55 p-b-65">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
@@ -56,75 +47,9 @@
 						</ul>
 
 
-						<!-- Advanced Filters -->
-						<h4 class="m-text14 p-b-7 p-t-30" style="border-top: 1px solid #e6e6e6; margin-top: 30px; padding-top: 30px;">
-							Advanced Filters
-						</h4>
-
-						<div class="filter-price p-t-22 p-b-20 bo3">
-							<div class="m-text15 p-b-17">
-								Price Range
-							</div>
-
-							<div class="wra-filter-bar">
-								<div id="filter-bar"></div>
-							</div>
-
-							<div class="flex-sb-m flex-w p-t-16">
-								<div class="w-size11">
-									<!-- Button -->
-									<button class="flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4">
-										Filter
-									</button>
-								</div>
-
-								<div class="s-text3 p-t-10 p-b-10">
-									Range: $<span id="value-lower">0</span> - $<span id="value-upper">200</span>
-								</div>
-							</div>
-						</div>
-
-						<div class="filter-color p-t-22 p-b-20 bo3">
-							<div class="m-text15 p-b-12">
-								Color
-							</div>
-
-							<ul class="flex-w">
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter1" type="checkbox" name="color-filter1">
-									<label class="color-filter color-filter1" for="color-filter1"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter2" type="checkbox" name="color-filter2">
-									<label class="color-filter color-filter2" for="color-filter2"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter3" type="checkbox" name="color-filter3">
-									<label class="color-filter color-filter3" for="color-filter3"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter4" type="checkbox" name="color-filter4">
-									<label class="color-filter color-filter4" for="color-filter4"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter5" type="checkbox" name="color-filter5">
-									<label class="color-filter color-filter5" for="color-filter5"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter6" type="checkbox" name="color-filter6">
-									<label class="color-filter color-filter6" for="color-filter6"></label>
-								</li>
-
-								<li class="m-r-10">
-									<input class="checkbox-color-filter" id="color-filter7" type="checkbox" name="color-filter7">
-									<label class="color-filter color-filter7" for="color-filter7"></label>
-								</li>
-							</ul>
+						<div class="category-sidebar-note">
+							<p>Find a particular style using the search, price and sort controls above the collection.</p>
+							<a href="{% url 'core:shop' %}">Browse every product <span aria-hidden="true">↗</span></a>
 						</div>
 
 					</div>
@@ -132,92 +57,27 @@
 
 				<div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
 					<!--  -->
-					<div class="flex-sb-m flex-w p-b-35">
-						<div class="flex-w">
-						
-							<div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10" >
-								<select class="selection-2" name="sorting">
-									<option>Default Sorting</option>
-									<option>Popularity</option>
-									<option>Price: low to high</option>
-									<option>Price: high to low</option>
-								</select>
-							</div>
-
-							<div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-								<select class="selection-2" name="sorting">
-									<option>Price</option>
-									<option>$0.00 - $50.00</option>
-									<option>$50.00 - $100.00</option>
-									<option>$100.00 - $150.00</option>
-									<option>$150.00 - $200.00</option>
-									<option>$200.00+</option>
-
-								</select>
-							</div>
-						</div>
-
-						<div class="search-product pos-relative bo4 of-hidden" style="width: 250px; height: 40px;">
-							<form method="GET" action="{% url 'core:shop' %}" style="height: 100%;">
-								<input class="s-text7 p-l-23 p-r-50" type="text" name="q" placeholder="Search Products..." style="width: 100%; height: 100%; border: none; outline: none;">
-								<button type="submit" class="flex-c-m ab-r-m color2 color0-hov trans-0-4" style="height: 100%; width: 40px; border: none; background: transparent;">
-									<i class="fs-12 fa fa-search" aria-hidden="true"></i>
-								</button>
-							</form>
-						</div>
-					</div>
+					<form method="get" action="{{ request.path }}" class="shop-filter-form">
+						<input type="search" name="q" value="{{ active_filters.q }}" placeholder="Search this collection">
+						<input type="number" name="min_price" min="0" step="0.01" value="{{ active_filters.min_price }}" placeholder="Min price">
+						<input type="number" name="max_price" min="0" step="0.01" value="{{ active_filters.max_price }}" placeholder="Max price">
+						<select name="size"><option value="">Any size</option>{% for size in available_sizes %}<option value="{{ size }}" {% if active_filters.size == size %}selected{% endif %}>{{ size }}</option>{% endfor %}</select>
+						<select name="color"><option value="">Any color</option>{% for color in available_colors %}<option value="{{ color }}" {% if active_filters.color == color %}selected{% endif %}>{{ color }}</option>{% endfor %}</select>
+						<label><input type="checkbox" name="in_stock" value="1" {% if active_filters.in_stock == '1' %}checked{% endif %}> In stock</label>
+						<select name="sort">
+							<option value="newest" {% if active_filters.sort == 'newest' or not active_filters.sort %}selected{% endif %}>Newest</option>
+							<option value="price_asc" {% if active_filters.sort == 'price_asc' %}selected{% endif %}>Price: low to high</option>
+							<option value="price_desc" {% if active_filters.sort == 'price_desc' %}selected{% endif %}>Price: high to low</option>
+							<option value="name" {% if active_filters.sort == 'name' %}selected{% endif %}>Name</option>
+						</select>
+						<button type="submit" class="commerce-button commerce-button--dark">Apply filters</button>
+					</form>
 
 					<!-- Product -->
-					<div class="row">
+					<div class="row catalog-grid">
 						{% for item in object_list %}
-						<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
-							<!-- Block2 Premium -->
-							<div class="product-card">
-								<div class="img-wrapper block2-labelnew">
-									<a href="{{item.get_absolute_url}}">
-									<img src="{{ item.image.url }}" alt="IMG-PRODUCT" 
-								style="height: 360px; object-fit: cover;">
-									</a>
-
-								  
-									<div class="block2-overlay trans-0-4">
-										<!-- Link covering the whole overlay -->
-										<a href="{{item.get_absolute_url}}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></a>
-
-										<a href="{% url 'core:add-to-wishlist' item.slug %}" class="block2-btn-addwishlist hov-pointer trans-0-4" style="z-index: 2;">
-											<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-											<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-										</a>
-
-										<div class="block2-btn-addcart w-size1 trans-0-4" style="z-index: 2;">
-											<!-- Button -->
-											<a href="{% url 'core:add-to-cart' item.slug %}" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" style="color: white;">
-												Add to Cart
-											</a>
-										</div>
-									</div>
-								</div>
-
-								<div class="block2-txt p-t-20 p-b-20" style="background: #fff; padding: 15px 10px; text-align: center;">
-									<a href="{{item.get_absolute_url}}" class="block2-name dis-block p-b-5" style="color: #333; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase;">
-										{{item.title}}
-									</a>
-
-									{% if item.discount_price %}
-									<span class="block2-oldprice m-text7 p-r-5" style="color: #999; text-decoration: line-through; font-size: 0.9rem;">
-										${{ item.price }}
-									</span>
-
-									<span class="block2-newprice m-text8 p-r-5" style="color: #e65540; font-weight: 700; font-size: 1.1rem;">
-										${{ item.discount_price }}
-									</span>
-									{% else %}
-									<span class="block2-price m-text6 p-r-5" style="color: #666; font-weight: 500; font-size: 1.1rem;">
-										${{item.price}}
-									</span>
-									{% endif %}
-								</div>
-							</div>
+						<div class="col-sm-12 col-md-6 col-lg-4 catalog-grid__item">
+							{% include "includes/catalog_product_card.html" with item=item %}
 						</div>
 						{% endfor %}
 
@@ -233,16 +93,17 @@
 				{% if is_paginated %}
 				<div class="pagination flex-m flex-w p-t-26">
 					{% if page_obj.has_previous %}
-					<a class="page-link" href="?page={{ page_obj.previous_page_number}}" aria-label="Previous">
+					<a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q|urlencode }}&{% endif %}{% if request.GET.min_price %}min_price={{ request.GET.min_price|urlencode }}&{% endif %}{% if request.GET.max_price %}max_price={{ request.GET.max_price|urlencode }}&{% endif %}{% if request.GET.sort %}sort={{ request.GET.sort|urlencode }}&{% endif %}{% if request.GET.size %}size={{ request.GET.size|urlencode }}&{% endif %}{% if request.GET.color %}color={{ request.GET.color|urlencode }}&{% endif %}{% if request.GET.in_stock %}in_stock={{ request.GET.in_stock|urlencode }}&{% endif %}page={{ page_obj.previous_page_number}}" aria-label="Previous">
 						<span aria-hidden="true">&laquo;</span>
 						<span class="sr-only">Previous</span>
 					</a>
 					{% endif %}
-					<a href="?page={{ page_obj.number }}" class="item-pagination flex-c-m trans-0-4 active-pagination">{{page_obj.number}}</a>
-					
+					{% for page_number in page_obj.paginator.page_range %}
+					<a href="?{% if request.GET.q %}q={{ request.GET.q|urlencode }}&{% endif %}{% if request.GET.min_price %}min_price={{ request.GET.min_price|urlencode }}&{% endif %}{% if request.GET.max_price %}max_price={{ request.GET.max_price|urlencode }}&{% endif %}{% if request.GET.sort %}sort={{ request.GET.sort|urlencode }}&{% endif %}{% if request.GET.size %}size={{ request.GET.size|urlencode }}&{% endif %}{% if request.GET.color %}color={{ request.GET.color|urlencode }}&{% endif %}{% if request.GET.in_stock %}in_stock={{ request.GET.in_stock|urlencode }}&{% endif %}page={{ page_number }}" class="item-pagination flex-c-m trans-0-4{% if page_number == page_obj.number %} active-pagination{% endif %}"{% if page_number == page_obj.number %} aria-current="page"{% endif %}>{{ page_number }}</a>
+					{% endfor %}
 					
 					{% if page_obj.has_next %}
-					<a class="page-link" href="?page={{ page_obj.next_page_number}}" aria-label="Next">
+					<a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q|urlencode }}&{% endif %}{% if request.GET.min_price %}min_price={{ request.GET.min_price|urlencode }}&{% endif %}{% if request.GET.max_price %}max_price={{ request.GET.max_price|urlencode }}&{% endif %}{% if request.GET.sort %}sort={{ request.GET.sort|urlencode }}&{% endif %}{% if request.GET.size %}size={{ request.GET.size|urlencode }}&{% endif %}{% if request.GET.color %}color={{ request.GET.color|urlencode }}&{% endif %}{% if request.GET.in_stock %}in_stock={{ request.GET.in_stock|urlencode }}&{% endif %}page={{ page_obj.next_page_number}}" aria-label="Next">
 							<span aria-hidden="true">&raquo;</span>
 							<span class="sr-only">Next</span>
 						</a>
