@@ -1,13 +1,18 @@
 services:
   web:
     build: .
-    command: sh -c "python manage.py migrate --noinput && gunicorn demo.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120"
+    command: sh -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn demo.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120"
     ports:
       - "8000:8000"
     environment:
       DEBUG: ${DEBUG:-true}
       ENVIRONMENT: ${ENVIRONMENT:-development}
       DB_ENGINE: ${DB_ENGINE:-sqlite}
+      POSTGRES_DB: ${POSTGRES_DB:-nhang_shop}
+      POSTGRES_USER: ${POSTGRES_USER:-nhang_shop}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-}
+      POSTGRES_HOST: ${POSTGRES_HOST:-db}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
       SECRET_KEY: ${SECRET_KEY:-django-insecure-local-compose-only}
       ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1}
       SITE_URL: ${SITE_URL:-http://localhost:8000}
@@ -20,3 +25,7 @@ services:
       DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL:-Nhang Shop <no-reply@localhost>}
     volumes:
       - .:/app
+      - static_assets:/app/staticfiles
+
+volumes:
+  static_assets:
