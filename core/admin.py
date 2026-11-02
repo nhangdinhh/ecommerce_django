@@ -10,7 +10,7 @@ from django.utils.html import format_html
 from datetime import timedelta
 from django.core.exceptions import ValidationError
 
-from .models import Category, Coupon, Item, ItemImage, ItemVariant, Order, OrderItem, OrderStatusHistory, Payment, Refund, Slide, StockMovement, Supplier, StockReceipt, Review, PriceHistory
+from .models import BillingAddress, Category, Coupon, Item, ItemImage, ItemVariant, Order, OrderItem, OrderStatusHistory, Payment, Refund, Slide, StockMovement, Supplier, StockReceipt, Review, PriceHistory
 from .order_workflow import ALLOWED_TRANSITIONS, transition_order_status
 from .notifications import send_order_status_email, send_shipping_quote_email
 
@@ -138,6 +138,8 @@ class OrderAdminForm(forms.ModelForm):
 @admin.register(Order)
 class OrderAdmin(VietnameseAdminMixin, admin.ModelAdmin):
     form = OrderAdminForm
+    # Search related records on demand instead of rendering huge FK dropdowns.
+    autocomplete_fields = ('user', 'shipping_address', 'billing_address', 'coupon')
     change_list_template = 'admin/core/order/change_list.html'
     list_display = ('order_reference', 'customer', 'status_text', 'payment_status_text', 'order_total', 'ordered_date_text', 'carrier_text', 'tracking_text')
     list_display_links = ('order_reference',)
@@ -154,6 +156,9 @@ class OrderAdmin(VietnameseAdminMixin, admin.ModelAdmin):
         'ref_code', 'start_date', 'ordered_date', 'shipped_at', 'delivered_at',
         'payment_method', 'payment_status', 'payment', 'being_delivered',
         'received', 'refund_requested', 'refund_granted', 'stock_deducted', 'shipping_fee_accepted',
+        # Order lines are created by checkout. Rendering an editable M2M select
+        # here loads every OrderItem in the database and becomes unusable at scale.
+        'items',
     )
     inlines = (OrderStatusHistoryInline,)
     fieldsets = (
@@ -898,6 +903,12 @@ class PaymentAdmin(VietnameseAdminMixin, admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+@admin.register(BillingAddress)
+class BillingAddressAdmin(VietnameseAdminMixin, admin.ModelAdmin):
+    list_display = ('recipient_name', 'user', 'phone_number', 'street_address', 'default')
+    search_fields = ('recipient_name', 'phone_number', 'street_address', 'user__username', 'user__email')
+
 
 @admin.register(Coupon)
 class CouponAdmin(VietnameseAdminMixin, admin.ModelAdmin):
