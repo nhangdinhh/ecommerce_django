@@ -17,7 +17,7 @@ from django.db import transaction
 from django.db.models import F, Q, Avg, Count, Exists, OuterRef
 from django.db.models.functions import Coalesce
 from decimal import Decimal, InvalidOperation
-from .forms import CheckoutForm, CouponForm, RefundForm, ProfileForm, BillingAddressForm
+from .forms import CheckoutForm, CouponForm, RefundForm, ProfileForm
 from .models import Item, ItemVariant, OrderItem, Order, BillingAddress, Payment, Coupon, Refund, Category, UserProfile, Wishlist, Review, OrderStatusHistory, StockMovement
 from .order_workflow import transition_order_status
 from .notifications import send_order_status_email
@@ -247,15 +247,11 @@ class CheckoutView(View):
                 messages.info(self.request, "Your shopping bag is empty.")
                 return redirect("core:order-summary")
             profile = UserProfile.objects.filter(user=self.request.user).first()
-            saved_address = BillingAddress.objects.filter(
-                user=self.request.user, default=True
-            ).order_by('-pk').first()
             full_name = self.request.user.get_full_name().strip() or self.request.user.username
-            form = CheckoutForm(user=self.request.user, initial={
-                'saved_address': saved_address.pk if saved_address else None,
-                'recipient_name': saved_address.recipient_name if saved_address else full_name,
-                'phone_number': saved_address.phone_number if saved_address else (profile.phone if profile else ''),
-                'street_address': saved_address.street_address if saved_address else (profile.address if profile else ''),
+            form = CheckoutForm(initial={
+                'recipient_name': full_name,
+                'phone_number': profile.phone if profile else '',
+                'street_address': profile.address if profile else '',
             })
             context = {
                 'form': form,
@@ -269,7 +265,7 @@ class CheckoutView(View):
             return redirect("core:order-summary")
 
     def post(self, *args, **kwargs):
-        form = CheckoutForm(self.request.POST, user=self.request.user)
+        form = CheckoutForm(self.request.POST)
         try:
             with transaction.atomic():
                 order = Order.objects.select_for_update().get(user=self.request.user, ordered=False)
@@ -315,13 +311,6 @@ class CheckoutView(View):
                                 form.add_error(None, f"Only {stock} of {item.title} ({order_item.variant or 'standard'}) remain in stock.")
 
                         if not form.errors:
-                            remember_details = self.request.POST.get('save_info') == 'on'
-                            if remember_details:
-                                profile, _ = UserProfile.objects.get_or_create(user=self.request.user)
-                                profile.phone = form.cleaned_data['phone_number']
-                                profile.address = form.cleaned_data['street_address']
-                                profile.save(update_fields=['phone', 'address'])
-
                             for order_item in order_items:
                                 item = Item.objects.select_for_update().get(pk=order_item.item_id)
                                 if order_item.variant_id:
@@ -344,19 +333,14 @@ class CheckoutView(View):
                                 order_item.ordered = True
                                 order_item.save(update_fields=['unit_price', 'ordered'])
 
-                            # Keep an order-time snapshot so later edits to the address book
-                            # never rewrite the destination on an existing order.
+                            # Keep an order-time address snapshot on the order record.
                             billing_address = BillingAddress.objects.create(
                                 user=self.request.user,
                                 recipient_name=form.cleaned_data['recipient_name'],
                                 phone_number=form.cleaned_data['phone_number'],
                                 street_address=form.cleaned_data['street_address'],
-                                default=remember_details,
+                                default=False,
                             )
-                            if remember_details:
-                                BillingAddress.objects.filter(
-                                    user=self.request.user, default=True
-                                ).exclude(pk=billing_address.pk).update(default=False)
                             order.billing_address = billing_address
                             order.shipping_address = billing_address
                             order.ordered = True
@@ -512,53 +496,6 @@ def reorder_order(request, ref_code):
     return redirect('core:order-summary')
 
 
-@login_required
-def address_book_view(request):
-    addresses = BillingAddress.objects.filter(user=request.user).order_by('-default', 'pk')
-    form = BillingAddressForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        address = form.save(commit=False)
-        address.user = request.user
-        if address.default:
-            BillingAddress.objects.filter(user=request.user, default=True).update(default=False)
-        address.save()
-        messages.success(request, 'Delivery address saved.')
-        return redirect('core:address-book')
-    return render(request, 'address_book.html', {'addresses': addresses, 'form': form})
-
-
-@login_required
-def address_edit_view(request, pk):
-    address = get_object_or_404(BillingAddress, pk=pk, user=request.user)
-    form = BillingAddressForm(request.POST or None, instance=address)
-    if request.method == 'POST' and form.is_valid():
-        updated = form.save(commit=False)
-        if updated.default:
-            BillingAddress.objects.filter(user=request.user, default=True).exclude(pk=address.pk).update(default=False)
-        updated.save()
-        messages.success(request, 'Delivery address updated.')
-        return redirect('core:address-book')
-    return render(request, 'address_book.html', {'addresses': BillingAddress.objects.filter(user=request.user).exclude(pk=pk), 'form': form, 'editing': address})
-
-
-@login_required
-@require_POST
-def address_delete_view(request, pk):
-    address = get_object_or_404(BillingAddress, pk=pk, user=request.user)
-    address.delete()
-    messages.success(request, 'Delivery address removed.')
-    return redirect('core:address-book')
-
-
-@login_required
-@require_POST
-def address_default_view(request, pk):
-    address = get_object_or_404(BillingAddress, pk=pk, user=request.user)
-    BillingAddress.objects.filter(user=request.user, default=True).update(default=False)
-    address.default = True
-    address.save(update_fields=['default'])
-    messages.success(request, 'Default delivery address updated.')
-    return redirect('core:address-book')
 # def home(request):
 #     context = {
 #         'items': Item.objects.all()

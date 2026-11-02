@@ -20,7 +20,6 @@
         {% if form.non_field_errors %}<div class="checkout-errors">{{ form.non_field_errors }}</div>{% endif %}
         <form method="post" class="checkout-form">
           {% csrf_token %}
-          {% if form.saved_address.field.queryset.exists %}<div class="checkout-field checkout-field--full"><label for="id_saved_address">Use a saved address</label>{{ form.saved_address }}<small><a href="{% url 'core:address-book' %}">Manage address book</a></small></div>{% endif %}
           <div class="checkout-form__grid">
             <div class="checkout-field checkout-field--full">
               <label for="id_recipient_name">Recipient full name</label>{{ form.recipient_name }}
@@ -36,8 +35,6 @@
             </div>
           </div>
 
-          <label class="checkout-save-info"><input type="checkbox" name="save_info" {% if request.POST.save_info %}checked{% endif %}><span class="checkout-save-info__check" aria-hidden="true">✓</span><span><strong>Remember these details</strong><small>Save this recipient, phone and delivery address for next time.</small></span></label>
-
           <div class="checkout-payment">
             <div class="checkout-card__heading"><span class="checkout-card__number">02</span><div><h3>Payment method</h3><p>Pay when your order arrives.</p></div></div>
             <label class="checkout-payment__choice"><input type="radio" name="payment_option" value="Cash on Delivery" checked><span class="checkout-payment__radio" aria-hidden="true"></span><span class="checkout-payment__icon" aria-hidden="true">₫</span><span><strong>Cash on delivery</strong><small>Pay the courier when you receive your order.</small></span><span class="checkout-payment__selected">Selected</span></label>
@@ -52,17 +49,4 @@
     </div>
   </div>
 </main>
-<script>
-(() => {
-  const saved = document.getElementById('id_saved_address');
-  if (!saved) return;
-  saved.addEventListener('change', () => {
-    const option = saved.selectedOptions[0];
-    if (!option || !option.value) return;
-    document.getElementById('id_recipient_name').value = option.dataset.recipient || '';
-    document.getElementById('id_phone_number').value = option.dataset.phone || '';
-    document.getElementById('id_street_address').value = option.dataset.street || '';
-  });
-})();
-</script>
 {% endblock content %}

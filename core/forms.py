@@ -1,23 +1,9 @@
 from django import forms
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
-from .models import UserProfile, BillingAddress
-
-
-class AddressSelect(forms.Select):
-    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
-        option = super().create_option(name, value, label, selected, index, subindex=subindex, attrs=attrs)
-        address = getattr(value, 'instance', None)
-        if address:
-            option['attrs'].update({
-                'data-recipient': address.recipient_name,
-                'data-phone': address.phone_number,
-                'data-street': address.street_address,
-            })
-        return option
+from .models import UserProfile
 
 class CheckoutForm(forms.Form):
-    saved_address = forms.ModelChoiceField(queryset=BillingAddress.objects.none(), required=False, label='Saved delivery address', widget=AddressSelect(attrs={'class': 'form-control'}))
     recipient_name = forms.CharField(max_length=150, required=True, widget=forms.TextInput(attrs={
         'placeholder': 'Full name of recipient',
         'class': 'form-control',
@@ -28,28 +14,22 @@ class CheckoutForm(forms.Form):
     phone_number = forms.CharField(max_length=15, required=True, widget=forms.TextInput(attrs={
         'placeholder': 'Your phone number',
         'class': 'form-control',
+        'autocomplete': 'tel',
+        'inputmode': 'tel',
+        'type': 'tel',
         'required': True,
     }))
 
     street_address = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={
-        'placeholder': '1234 Main St',
+        'placeholder': 'Street, district, city',
         'class': 'form-control',
+        'autocomplete': 'street-address',
         'required': True,
     }))
 
-    def __init__(self, *args, user=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['saved_address'].queryset = BillingAddress.objects.filter(user=user) if user and user.is_authenticated else BillingAddress.objects.none()
-
     def clean(self):
         cleaned = super().clean()
-        address = cleaned.get('saved_address')
-        if address:
-            cleaned['recipient_name'] = address.recipient_name
-            cleaned['phone_number'] = address.phone_number
-            cleaned['street_address'] = address.street_address
-        # Validate the resolved address on the server. Browser attributes such as
-        # `required` and `type=tel` can be bypassed by sending a crafted POST.
+        # Validate submitted values on the server too; browser-only checks can be bypassed.
         recipient = (cleaned.get('recipient_name') or '').strip()
         phone = (cleaned.get('phone_number') or '').strip()
         street = (cleaned.get('street_address') or '').strip()
@@ -68,7 +48,9 @@ class CheckoutForm(forms.Form):
             len(digits) < 8
             or len(digits) > 15
             or any(character not in '+()- .0123456789' for character in phone)
+            or phone.count('+') > 1
             or ('+' in phone and not phone.startswith('+'))
+            or not any(character.isdigit() for character in phone)
         ):
             self.add_error('phone_number', 'Enter a valid phone number with 8 to 15 digits.')
 
@@ -79,24 +61,6 @@ class CheckoutForm(forms.Form):
         ):
             self.add_error('street_address', 'Enter a complete delivery address (at least 8 characters).')
         return cleaned
-
-
-class BillingAddressForm(forms.ModelForm):
-    class Meta:
-        model = BillingAddress
-        fields = ('recipient_name', 'phone_number', 'street_address', 'default')
-        widgets = {
-            'recipient_name': forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'name'}),
-            'phone_number': forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'tel'}),
-            'street_address': forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'street-address'}),
-        }
-
-    def clean_phone_number(self):
-        phone = self.cleaned_data['phone_number'].strip()
-        digits = ''.join(character for character in phone if character.isdigit())
-        if len(digits) < 8 or len(digits) > 15 or any(c not in '+()- .0123456789' for c in phone):
-            raise forms.ValidationError('Enter a valid phone number with 8 to 15 digits.')
-        return phone
 
 
 class CouponForm(forms.Form):

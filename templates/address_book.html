@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% block head_title %}Delivery addresses | Nhang Shop{% endblock %}
-{% block content %}
-{% include "includes/page_hero.html" with title="Your addresses" eyebrow="ACCOUNT" description="Save the places you want us to deliver your orders." hero_image="kfashion/shirt_korean_buttonup.jpg" hero_alt="Lee Jong-suk in a white shirt" compact=True %}
-<main class="commerce-page"><div class="commerce-container" style="max-width:1000px;margin:48px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px">
-  <section class="checkout-card"><h2>{% if editing %}Edit address{% else %}Add an address{% endif %}</h2><form method="post">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}<p><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<small style="color:#a33">{{ error }}</small>{% endfor %}</p>{% endfor %}<button class="commerce-button commerce-button--dark" type="submit">Save address</button></form></section>
-  <section><h2>Saved addresses</h2>{% for address in addresses %}<article class="checkout-card" style="margin:0 0 16px"><h3>{{ address.recipient_name }} {% if address.default %}<small>Default</small>{% endif %}</h3><p>{{ address.phone_number }}<br>{{ address.street_address }}</p><a href="{% url 'core:address-edit' address.pk %}">Edit</a>{% if not address.default %}<form method="post" action="{% url 'core:address-default' address.pk %}" style="display:inline">{% csrf_token %}<button type="submit">Set as default</button></form>{% endif %}<form method="post" action="{% url 'core:address-delete' address.pk %}" style="display:inline">{% csrf_token %}<button type="submit" onclick="return confirm('Remove this address?')">Remove</button></form></article>{% empty %}<p>No saved addresses yet.</p>{% endfor %}</section>
-</div></main>
-{% endblock %}

@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import RedirectView
 from .views import order_success_view 
 from .views import (
     ItemDetailView,
@@ -21,10 +22,6 @@ from .views import (
     order_detail_view,
     order_success_detail_view,
     reorder_order,
-    address_book_view,
-    address_edit_view,
-    address_delete_view,
-    address_default_view,
 )
 
 app_name = 'core'
@@ -48,10 +45,7 @@ urlpatterns = [
     path('orders/<str:ref_code>/', order_detail_view, name='order-detail'),
     path('orders/<str:ref_code>/reorder/', reorder_order, name='reorder-order'),
     path('profile/', profile_view, name='profile'),
-    path('profile/addresses/', address_book_view, name='address-book'),
-    path('profile/addresses/<int:pk>/edit/', address_edit_view, name='address-edit'),
-    path('profile/addresses/<int:pk>/delete/', address_delete_view, name='address-delete'),
-    path('profile/addresses/<int:pk>/default/', address_default_view, name='address-default'),
+    path('profile/addresses/', RedirectView.as_view(pattern_name='core:profile', permanent=False)),
     path('wishlist/', wishlist_view, name='wishlist'),
     path('add-to-wishlist/<slug>/', add_to_wishlist, name='add-to-wishlist'),
     path('remove-from-wishlist/<slug>/', remove_from_wishlist, name='remove-from-wishlist'),
