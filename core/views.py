@@ -300,11 +300,17 @@ class CheckoutView(View):
                             stock = item.stock_quantity
                             if order_item.variant_id:
                                 variant = ItemVariant.objects.select_for_update().get(pk=order_item.variant_id)
-                                stock = variant.stock_quantity if variant.is_active else 0
+                                stock = variant.stock_quantity if variant.is_active and variant.item_id == item.pk else 0
                             if order_item.quantity < 1:
                                 form.add_error(None, f"{item.title} has an invalid quantity in your bag.")
+                            elif order_item.quantity > 99:
+                                form.add_error(None, f"The maximum quantity per product is 99 ({item.title}).")
                             elif not item.is_active:
                                 form.add_error(None, f"{item.title} is no longer available.")
+                            elif order_item.user_id != self.request.user.pk:
+                                form.add_error(None, f"The shopping bag contains an invalid line for {item.title}.")
+                            elif order_item.variant_id and order_item.variant.item_id != item.pk:
+                                form.add_error(None, f"The selected option does not belong to {item.title}.")
                             elif order_item.quantity > stock:
                                 form.add_error(None, f"Only {stock} of {item.title} ({order_item.variant or 'standard'}) remain in stock.")
 
@@ -600,8 +606,8 @@ def add_to_cart(request, slug):
         quantity = int(request.POST.get('quantity', '1'))
     except (TypeError, ValueError):
         quantity = 0
-    if quantity < 1:
-        messages.warning(request, 'Choose a quantity of at least one.')
+    if quantity < 1 or quantity > 99:
+        messages.warning(request, 'Choose a quantity between 1 and 99.')
         return redirect('core:product', slug=slug)
     order, _ = Order.objects.get_or_create(
         user=request.user,

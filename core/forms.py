@@ -18,20 +18,23 @@ class AddressSelect(forms.Select):
 
 class CheckoutForm(forms.Form):
     saved_address = forms.ModelChoiceField(queryset=BillingAddress.objects.none(), required=False, label='Saved delivery address', widget=AddressSelect(attrs={'class': 'form-control'}))
-    recipient_name = forms.CharField(max_length=150, required=False, widget=forms.TextInput(attrs={
+    recipient_name = forms.CharField(max_length=150, required=True, widget=forms.TextInput(attrs={
         'placeholder': 'Full name of recipient',
         'class': 'form-control',
         'autocomplete': 'name',
+        'required': True,
     }))
 
-    phone_number = forms.CharField(max_length=15, required=False, widget=forms.TextInput(attrs={
+    phone_number = forms.CharField(max_length=15, required=True, widget=forms.TextInput(attrs={
         'placeholder': 'Your phone number',
-        'class': 'form-control'
+        'class': 'form-control',
+        'required': True,
     }))
 
-    street_address = forms.CharField(max_length=100, required=False, widget=forms.TextInput(attrs={
+    street_address = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={
         'placeholder': '1234 Main St',
-        'class': 'form-control'
+        'class': 'form-control',
+        'required': True,
     }))
 
     def __init__(self, *args, user=None, **kwargs):
@@ -45,20 +48,37 @@ class CheckoutForm(forms.Form):
             cleaned['recipient_name'] = address.recipient_name
             cleaned['phone_number'] = address.phone_number
             cleaned['street_address'] = address.street_address
-        elif not all((cleaned.get('recipient_name'), cleaned.get('phone_number'), cleaned.get('street_address'))):
-            raise forms.ValidationError('Choose a saved address or complete the delivery details.')
-        return cleaned
+        # Validate the resolved address on the server. Browser attributes such as
+        # `required` and `type=tel` can be bypassed by sending a crafted POST.
+        recipient = (cleaned.get('recipient_name') or '').strip()
+        phone = (cleaned.get('phone_number') or '').strip()
+        street = (cleaned.get('street_address') or '').strip()
+        if not recipient:
+            self.add_error('recipient_name', 'Enter the recipient’s full name.')
+        elif sum(character.isalpha() for character in recipient) < 2 or any(
+            not (character.isalpha() or character.isspace() or character in "-'.’")
+            for character in recipient
+        ):
+            self.add_error('recipient_name', 'Enter a valid name using letters, spaces, apostrophes or hyphens.')
 
-    def clean_phone_number(self):
-        phone = (self.cleaned_data.get('phone_number') or '').strip()
-        if not phone:
-            return phone
         digits = ''.join(character for character in phone if character.isdigit())
-        if len(digits) < 8 or len(digits) > 15:
-            raise forms.ValidationError('Enter a valid phone number with 8 to 15 digits.')
-        if any(character not in '+()- .0123456789' for character in phone):
-            raise forms.ValidationError('Use digits and common phone separators only.')
-        return phone
+        if not phone:
+            self.add_error('phone_number', 'Enter a phone number for delivery.')
+        elif (
+            len(digits) < 8
+            or len(digits) > 15
+            or any(character not in '+()- .0123456789' for character in phone)
+            or ('+' in phone and not phone.startswith('+'))
+        ):
+            self.add_error('phone_number', 'Enter a valid phone number with 8 to 15 digits.')
+
+        allowed_address_chars = " ,.#/'-"
+        if len(street) < 8 or sum(character.isalpha() for character in street) < 3 or any(
+            not (character.isalpha() or character.isdigit() or character.isspace() or character in allowed_address_chars)
+            for character in street
+        ):
+            self.add_error('street_address', 'Enter a complete delivery address (at least 8 characters).')
+        return cleaned
 
 
 class BillingAddressForm(forms.ModelForm):
